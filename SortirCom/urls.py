@@ -25,4 +25,5 @@ urlpatterns = [
     path('Accueil', views.index),
     path('Profil', views.index),
     path('Deconnecter', views.index),
+    path('AjouterParticipant', views.index)
 ]

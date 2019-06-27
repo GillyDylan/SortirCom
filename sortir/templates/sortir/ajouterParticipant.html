@@ -1,0 +1,13 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-4" id="ajouter_participant">
+            <h2>Ajouter Participant</h2>
+            <form action="{% url 'ajouterparticipant' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Enregistrer" />
+            </form>
+        </div>
+    </div>
+</div>
+</div>

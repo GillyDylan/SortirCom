@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from sortir.forms import ParticipantForm
 from sortir.models import Participant, Sortie
@@ -11,11 +11,19 @@ def workspace(request):
 
 
 def index(request):
-    return HttpResponse("Index")
+    return render(request, "sortir/index.html")
 
 
-def test(request):
-    return HttpResponse("ajax")
+def accueil(request):
+    return render(request, "sortir/accueil.html")
+
+
+def profil(request):
+    return render(request, "sortir/profil.html")
+
+
+def deconnecter(request):
+    return render(request, "sortir/deconnecter.html")
 
 
 def afficherprofil(request, idOrganisateur, idSortie):
@@ -49,9 +57,9 @@ def modifierprofil(request):
 
 
 def ajouterparticipant(request):
-    if request.session.__contains__('userId'):
-        user = Participant.objects.get(pk=request.session['userId'])
-        if user.administrateur:
+    #if request.session.__contains__('userId'):
+    #    user = Participant.objects.get(pk=request.session['userId'])
+    #    if user.administrateur:
             form = ParticipantForm()
 
             if form.is_valid():
@@ -71,4 +79,4 @@ def ajouterparticipant(request):
             context = {'form': form}
             return render(request, 'sortir/ajouterParticipant.html', context)
 
-    return render(request, 'sortir/index.html')
+
