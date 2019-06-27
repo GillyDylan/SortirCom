@@ -15,6 +15,5 @@ def index(request):
 def test(request):
     return HttpResponse("ajax")
 
-
 def afficherProfil(request, idProfil):
     return render(request,'sortir/index.html')
