@@ -55,6 +55,7 @@ class SortieForm(forms.Form):
             raise forms.ValidationError("Attention : la date et l'heure de fin "
                                         "doivent être postérieur à la date de début")
 
+
 class SiteForm(forms.Form):
     nom = forms.CharField(min_length=2, max_length=50, required=True, label=None)
 
