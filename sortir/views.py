@@ -6,3 +6,11 @@ from . import forms
 
 def workspace(request):
     return HttpResponse("Coucou")
+
+
+def index(request):
+    return HttpResponse("Index")
+
+
+def test(request):
+    return HttpResponse("ajax")

@@ -3,5 +3,7 @@ from django.urls import path
 from sortir import views
 
 urlpatterns = [
-    path('coco/', views.workspace)
+    path('coco', views.workspace),
+    path('', views.index),
+    path('test', views.test)
 ]
