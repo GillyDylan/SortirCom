@@ -14,3 +14,7 @@ def index(request):
 
 def accueil(request):
     return render(request, 'sortir/accueil.html')
+
+
+def afficherProfil(request, idProfil):
+    return render(request,'sortir/index.html')
