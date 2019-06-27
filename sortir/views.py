@@ -11,19 +11,19 @@ def workspace(request):
 
 
 def index(request):
-    return render(request, "sortir/index.html")
+    return render(request, 'sortir/index.html')
 
 
 def accueil(request):
-    return render(request, "sortir/accueil.html")
+    return render(request, 'sortir/accueil.html')
 
 
 def profil(request):
-    return render(request, "sortir/profil.html")
+    return render(request, 'sortir/profil.html')
 
 
 def deconnecter(request):
-    return render(request, "sortir/deconnecter.html")
+    return render(request, 'sortir/deconnecter.html')
 
 
 def afficherprofil(request, idOrganisateur, idSortie):
