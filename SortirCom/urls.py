@@ -16,8 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from sortir import views
+
 urlpatterns = [
     path('workspace/', include('sortir.urls')),
     path('', include('sortir.urls')),
     path('Ajax/', include('sortir.urls')),
+    path('Accueil', views.index),
+    path('Profil', views.index),
+    path('Deconnecter', views.index),
 ]

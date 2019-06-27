@@ -16,5 +16,13 @@ def accueil(request):
     return render(request, 'sortir/accueil.html')
 
 
+def profil(request):
+    return render(request, 'sortir/profil.html')
+
+
+def deconnecter(request):
+    return render(request, 'sortir/deconnecter.html')
+
+
 def afficherProfil(request, idProfil):
     return render(request,'sortir/index.html')

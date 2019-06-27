@@ -4,20 +4,38 @@
     {% load static %}
     <meta charset="UTF-8">
     <title>Index</title>
+
     <link rel="stylesheet" href="{% static 'sortir/css/bootstrap.min.css' %}">
-     <script src="{% static 'sortir/js/fonctions.js '%}"></script>
+    <link rel="stylesheet" href="{% static 'sortir/css/style.css' %}">
     <script src="{% static 'sortir/js/jquery-3.4.1.min.js '%}"></script>
-    <script src="{% static 'sortir/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'sortir/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'sortir/js/fonctions.js '%}"></script>
 </head>
 <body>
- <nav class="navbar navbar-light bg-light">
-  <a id='Logo' onclick='requeteAjax("Accueil")' class="navbar-brand" href="#">
-    <img  src="{% static 'sortir/img/sortie.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-    Sortir.com
-  </a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a id='Logo' onclick='changerPage("Accueil")' class="navbar-brand" href="#">
+        <img  src="{% static 'sortir/img/sortie.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        Sortir.com
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" id='Accueil' onclick='changerPage($(this))'>
+                <a class="nav-link "   >Accueil</a>
+            </li>
+            <li  class="nav-item" id='Profil'  onclick='changerPage($(this))'>
+                <a  class="nav-link" >Mon Profil</a>
+            </li>
+            <li  class="nav-item" id='Deconnecter'  onclick='changerPage($(this))'>
+                <a  class="nav-link">Se déconnecter </a>
+            </li>
+        </ul>
+    </div>
 </nav>
 <div id="contenu">
+    {% if 'profil' in request.path|lower %}
 
+    {% endif %}
 </div>
 </body>
 </html>
