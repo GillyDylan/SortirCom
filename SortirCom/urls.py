@@ -19,5 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('workspace/', include('sortir.urls')),
     path('', include('sortir.urls')),
-    path('ajax/', include('sortir.urls')),
+    path('Ajax/', include('sortir.urls')),
 ]

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import  HttpResponse
+from django.http import HttpResponse
 from . import forms
 # Create your views here.
 
@@ -9,8 +9,8 @@ def workspace(request):
 
 
 def index(request):
-    return HttpResponse("Index")
+    return render(request, 'sortir/index.html')
 
 
-def test(request):
-    return HttpResponse("ajax")
+def accueil(request):
+    return render(request, 'sortir/accueil.html')

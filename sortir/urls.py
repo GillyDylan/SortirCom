@@ -5,5 +5,5 @@ from sortir import views
 urlpatterns = [
     path('coco', views.workspace),
     path('', views.index),
-    path('test', views.test)
+    path('Accueil', views.accueil)
 ]
