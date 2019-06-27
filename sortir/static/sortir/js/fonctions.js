@@ -1,7 +1,16 @@
 function changerPage(objet){
     const id = objet.attr("id");
-    $(".nav-item").removeClass('active');
-    objet.addClass('active');
+    var adresseActuelle = window.location.pathname;
+    var adresseSuivante;
+
+    var index = adresseActuelle.lastIndexOf("/");
+    if(index === -1){
+        adresseSuivante = adresseActuelle + id;
+    }
+    else {
+        adresseSuivante = adresseActuelle.substring(0, index-1) + id;
+    }
+    majHistorique(adresseSuivante, id);
     requeteAjax(id);
 }
 
@@ -16,25 +25,15 @@ window.addEventListener('load', function() {
     var index = adresseActuelle.lastIndexOf("/");
     if(adresseActuelle.length > 1){
         var id = adresseActuelle.substring(index+1);
-         $(".nav-item").removeClass('active');
-         $('#'+id).addClass('active');
-         requeteAjax(id);
+
+        requeteAjax(id);
     }
 }, false);
 
 
 function requeteAjax(id){
-    var adresseActuelle = window.location.pathname;
-    var adresseSuivante;
-
-    var index = adresseActuelle.lastIndexOf("/");
-    if(index === -1){
-        adresseSuivante = adresseActuelle + id;
-    }
-    else {
-        adresseSuivante = adresseActuelle.substring(0, index-1) + id;
-    }
-    majHistorique(adresseSuivante, id);
+     $(".nav-item").removeClass('active');
+     $('#'+id).addClass('active');
     $.ajax({
         url : '/Ajax/'+ id,
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
@@ -43,6 +42,7 @@ function requeteAjax(id){
 
         },
         success : function(resultText) {
+
             $('#contenu').html(resultText);
         },
         error : function(jqXHR, exception) {

@@ -25,4 +25,4 @@ def deconnecter(request):
 
 
 def afficherProfil(request, idProfil):
-    return render(request,'sortir/index.html')
+    return render(request, 'sortir/index.html')
