@@ -6,3 +6,6 @@ from . import forms
 
 def workspace(request):
     return HttpResponse("Coucou")
+
+def afficherProfil(request, idProfil):
+    return render(request,'sortir/index.html')
