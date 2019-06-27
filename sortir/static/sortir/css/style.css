@@ -1,3 +1,25 @@
 .nav-item :hover{
     cursor: pointer;
 }
+
+.labels{
+    text-align: right;
+}
+
+.labels>label{
+    height: 25px;
+     margin-bottom: 5px;
+    padding:0;
+}
+
+.champs{
+
+}
+
+.champs>input, .champs>select{
+    width: 100%;
+    height: 25px;
+    margin-bottom: 5px;
+    padding:0;
+    align-self: self-start;
+}

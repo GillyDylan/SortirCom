@@ -2,9 +2,59 @@
     <div class="row">
         <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-4" id="ajouter_participant">
             <h2>Ajouter Participant</h2>
-            <form action="{% url 'ajouterparticipant' %}" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
+            <form action="{% url 'ajouterparticipant' %}" method="get">
+                <div class="row">
+                    <div class="col-sm-5 col-md-5 labels">
+                        {{ form.pseudo.label_tag }}
+                        <br>
+                        {{ form.nom.label_tag }}
+                        <br>
+                        {{ form.prenom.label_tag }}
+                        <br>
+                        {{ form.password.label_tag }}
+                        <br>
+                        {{ form.email.label_tag }}
+                        <br>
+                        {{ form.telephone.label_tag }}
+                        <br>
+                        {{ form.site.label_tag }}
+                        <br>
+                        {{ form.administrateur.label_tag }}
+                        <br>
+                        {{ form.actif.label_tag }}
+                    </div>
+                    <div class="col-sm-5 col-md-5 champs">
+                        {{ form.pseudo }}{{ form.pseudo.errors }}
+
+                        {{ form.nom }}{{ form.nom.errors }}
+
+                        {{ form.prenom }}{{ form.prenom.errors }}
+
+                        {{ form.password }}{{ form.password.errors }}
+
+                        {{ form.email }}{{ form.email.errors }}
+
+                        {{ form.telephone }}{{ form.telephone.errors }}
+
+                        {{ form.site }}{{ form.site.errors }}
+
+                        {{ form.administrateur }}{{ form.administrateur.errors }}
+
+                        {{ form.actif }}{{ form.actif.errors }}
+                    </div>
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
                 <input type="submit" value="Enregistrer" />
             </form>
         </div>
