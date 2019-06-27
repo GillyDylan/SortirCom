@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from sortir.forms import ParticipantForm
-from sortir.models import Participant, Sortie
+from sortir.models import Participant, Sortie, Site
 from django.contrib.auth import hashers
 # Create your views here.
 
@@ -57,10 +57,15 @@ def modifierprofil(request):
 
 
 def ajouterparticipant(request):
-    #if request.session.__contains__('userId'):
+    # if request.session.__contains__('userId'):
     #    user = Participant.objects.get(pk=request.session['userId'])
     #    if user.administrateur:
+            truc = Site.objects.all()
+            print("hello world")
+            for site in truc:
+                print(site.nom)
             form = ParticipantForm()
+
 
             if form.is_valid():
                 newParticipant = Participant()

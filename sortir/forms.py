@@ -12,7 +12,7 @@ class ParticipantForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput, min_length=6, max_length=100, required=True, label='Mot de Passe :')
     confirmPassword = forms.CharField(widget=forms.PasswordInput, min_length=6, max_length=100, required=True, label='Confirmer mdp :')
     telephone = forms.CharField(validators=[RegexValidator(r'^\d{10}$')], min_length=10, max_length=10, required=True, label='Téléphone :')
-    site = forms.ModelChoiceField(queryset=Site.objects.all(), empty_label=None, required=True, label='Site rataché :')
+    site = forms.ModelChoiceField(queryset=Site.objects.all(), to_field_name="nom",empty_label=None, required=True, label='Site rattaché :')
     administrateur = forms.BooleanField(required=False, label='Est administrateur :')
     actif = forms.BooleanField(required=False, label='Est actif :')
 
