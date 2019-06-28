@@ -1,47 +1,72 @@
-<div class="container-fluid">
+<div class="container-fluid text-center" >
+    <h2>Ajouter Participant</h2>
+    <br>
     <div id="ajouter_participant" class="row col-sm-10 col-md-6 offset-sm-1 offset-md-3">
-        <h2>Ajouter Participant</h2>
-        <form id="AjouterParticipant" method="post">
+        <form id="AjouterParticipant" method="post" class="col-12">
             {% load static %}
             {% csrf_token %}
-            <div class="form-group row">
+            <div class="form-group row text-right">
                 {{ form.pseudo.label_tag }}
                 <div class="col-sm-12 col-md-7">
                     {{ form.pseudo }} {{ form.pseudo.errors }}
                 </div>
             </div>
-            <div class="form-group row ">
+            <div class="form-group row text-right">
+                {{ form.email.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.email }} {{ form.email.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
                 {{ form.nom.label_tag }}
                 <div class="col-sm-12 col-md-7">
                     {{ form.nom }} {{ form.nom.errors }}
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row text-right">
                 {{ form.prenom.label_tag }}
                 <div class="col-sm-12 col-md-7">
                     {{ form.prenom }} {{ form.prenom.errors }}
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row text-right">
                 {{ form.password.label_tag }}
                 <div class="col-sm-12 col-md-7">
                     {{ form.password }} {{ form.password.errors }}
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row text-right">
                 {{ form.confirmPassword.label_tag }}
                 <div class="col-sm-12 col-md-7">
                     {{ form.confirmPassword }} {{ form.confirmPassword.errors }}
                 </div>
             </div>
-            <div class="form-group row">
-                {{ form.pseudo.label_tag }}
+            <div class="form-group row text-right">
+                {{ form.telephone.label_tag }}
                 <div class="col-sm-12 col-md-7">
-                    {{ form.pseudo }} {{ form.pseudo.errors }}
+                    {{ form.telephone }} {{ form.telephone.errors }}
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" value="Connexion"></button>
-
+            <div class="form-group row text-right">
+                {{ form.site.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.site }} {{ form.site.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.administrateur.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.administrateur }} {{ form.administrateur.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.actif.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.actif }} {{ form.actif.errors }}
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary center-block">Ajouter</button>
         </form>
     </div>
 </div>
