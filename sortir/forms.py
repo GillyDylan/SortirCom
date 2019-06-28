@@ -76,7 +76,7 @@ class LieuForm(forms.ModelForm):
 
     class Meta:
         model = Lieu
-        fields = ['nom', 'codePostal']
+        fields = ['nom', 'ville', 'rue', 'latitude', 'longitude']
 
 
 class ConnexionForm(forms.Form):
