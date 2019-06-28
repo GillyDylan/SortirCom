@@ -65,7 +65,7 @@ def modifierprofil(request):
             user.pseudo = form.cleaned_data['pseudo'] if user.pseudo != form.cleaned_data['pseudo'] else None
             user.nom = form.cleaned_data['nom'] if user.nom != form.cleaned_data['nom'] else None
             user.prenom = form.cleaned_data['prenom'] if user.prenm != form.cleaned_data['prenom'] else None
-            user.password = hashers.make_password(form.cleaned_data['password']) if user.password != hashers.make_password else None
+            user.password = form.cleaned_data['password'] if user.password != form.cleaned_data['password'] else None
             user.site = form.cleaned_data['site'] if user.site != form.cleaned_data['site'] else None
             user.save()
 
