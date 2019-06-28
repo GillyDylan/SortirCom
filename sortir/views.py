@@ -60,28 +60,25 @@ def ajouterparticipant(request):
     # if request.session.__contains__('userId'):
     #    user = Participant.objects.get(pk=request.session['userId'])
     #    if user.administrateur:
-            truc = Site.objects.all()
-            print("hello world")
-            for site in truc:
-                print(site.nom)
-            form = ParticipantForm()
+    form = ParticipantForm(request.POST or None)
+
+    if form.is_valid():
+        newParticipant = Participant()
+        newParticipant.pseudo = form.cleaned_data['pseudo']
+        newParticipant.nom = form.cleaned_data['nom']
+        newParticipant.prenom = form.cleaned_data['prenom']
+        newParticipant.password = form.cleaned_data['password']
+        newParticipant.email = form.cleaned_data['email']
+        newParticipant.telephone = form.cleaned_data['telephone']
+        newParticipant.site = form.cleaned_data['site']
+        newParticipant.administrateur = form.cleaned_data['administrateur']
+        newParticipant.actif = form.cleaned_data['actif']
+        newParticipant.save()
+        return render(request, 'sortir/index.html')
+
+    context = {'form': form}
+    return render(request, 'sortir/ajouterParticipant.html', context)
 
 
-            if form.is_valid():
-                newParticipant = Participant()
-                newParticipant.pseudo = form.cleaned_data['pseudo']
-                newParticipant.nom = form.cleaned_data['nom']
-                newParticipant.prenom = form.cleaned_data['prenom']
-                newParticipant.password = form.cleaned_data['password']
-                newParticipant.email = form.cleaned_data['email']
-                newParticipant.telephone = form.cleaned_data['telephone']
-                newParticipant.site = form.cleaned_data['site']
-                newParticipant.administrateur = form.cleaned_data['administrateur']
-                newParticipant.actif = form.cleaned_data['actif']
-                newParticipant.save()
-                return render(request, 'sortir/index.html')
-
-            context = {'form': form}
-            return render(request, 'sortir/ajouterParticipant.html', context)
-
-
+def formulaireajouterparticipant(request):
+    return render(request, 'sortir/ajouterParticipant.html')

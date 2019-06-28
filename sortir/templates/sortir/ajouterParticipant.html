@@ -2,8 +2,13 @@
     <div class="row">
         <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-4" id="ajouter_participant">
             <h2>Ajouter Participant</h2>
-            <form action="{% url 'ajouterparticipant' %}" method="get">
+            <form action="{% url 'ajouterparticipant' %}" method="post">
+                {{ csrf_input }}
+                <script type="text/javascript">
+                    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+                </script>
                 <div class="row">
+
                     <div class="col-sm-5 col-md-5 labels">
                         {{ form.pseudo.label_tag }}
                         <br>
@@ -12,6 +17,8 @@
                         {{ form.prenom.label_tag }}
                         <br>
                         {{ form.password.label_tag }}
+                        <br>
+                        {{ form.confirmPassword.label_tag}}
                         <br>
                         {{ form.email.label_tag }}
                         <br>
@@ -23,7 +30,7 @@
                         <br>
                         {{ form.actif.label_tag }}
                     </div>
-                    <div class="col-sm-5 col-md-5 champs">
+                    <div class="col-sm-5 col-md-5 champs float-left">
                         {{ form.pseudo }}{{ form.pseudo.errors }}
 
                         {{ form.nom }}{{ form.nom.errors }}
@@ -31,6 +38,8 @@
                         {{ form.prenom }}{{ form.prenom.errors }}
 
                         {{ form.password }}{{ form.password.errors }}
+
+                        {{ form.confirmPassword }} {{ form.confirmPassword.errors }}
 
                         {{ form.email }}{{ form.email.errors }}
 
@@ -48,13 +57,6 @@
 
 
                     </div>
-
-
-
-
-
-
-
                 <input type="submit" value="Enregistrer" />
             </form>
         </div>
