@@ -1,5 +1,7 @@
 $('#AjouterParticipant > div > label').addClass('col-sm-12 col-md-5 col-form-label');
 $('#AjouterParticipant > div > div > input').addClass('form-control');
+$('#AjouterParticipant > div > div > select').addClass('form-control');
+
 
 
 var frm = $('#AjouterParticipant');
