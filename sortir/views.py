@@ -27,8 +27,7 @@ def deconnecter(request):
 
 
 def formulaireajouterparticipant(request):
-    form = ParticipantForm()
-    context = {'form': form}
+    context = {'form': ParticipantForm()}
     return render(request, 'sortir/ajouterParticipant.html', context)
 
 
@@ -80,20 +79,15 @@ def ajouterparticipant(request):
     # if request.session.__contains__('userId'):
     #    user = Participant.objects.get(pk=request.session['userId'])
     #    if user.administrateur:
-    form = ParticipantForm(request.POST or None)
+    user = Participant()
+    form = ParticipantForm(data=(request.POST or None), instance=user)
+
+    print(form.is_valid(), form.errors, type(form.errors))
 
     if form.is_valid():
-        newParticipant = Participant()
-        newParticipant.pseudo = form.cleaned_data['pseudo']
-        newParticipant.nom = form.cleaned_data['nom']
-        newParticipant.prenom = form.cleaned_data['prenom']
-        newParticipant.password = form.cleaned_data['password']
-        newParticipant.email = form.cleaned_data['email']
-        newParticipant.telephone = form.cleaned_data['telephone']
-        newParticipant.site = form.cleaned_data['site']
-        newParticipant.administrateur = form.cleaned_data['administrateur']
-        newParticipant.actif = form.cleaned_data['actif']
-        newParticipant.save()
+        print('je devrais reussir a l\'ajouter en bdd')
+        user.password = hashers.make_password(user.password)
+        user.save()
         return render(request, 'sortir/index.html')
 
     context = {'form': form}
