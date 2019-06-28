@@ -26,6 +26,13 @@ def deconnecter(request):
     return render(request, 'sortir/deconnecter.html')
 
 
+def formulaireajouterparticipant(request):
+    form = ParticipantForm()
+    context = {'form': form}
+    return render(request, 'sortir/ajouterParticipant.html', context)
+
+
+
 def connection(request):
     form = ConnexionForm(request.POST or None)
     if form.is_valid():
@@ -48,7 +55,7 @@ def afficherprofil(request, idOrganisateur, idSortie):
             context = {'participant': participant}
             return render(request, 'sortir/afficherProfil.html', context)
 
-    return redirect(request,'sortir/conn.html')
+    return render(request,'sortir/index.html')
 
 
 def modifierprofil(request):
@@ -93,5 +100,4 @@ def ajouterparticipant(request):
     return render(request, 'sortir/ajouterParticipant.html', context)
 
 
-def formulaireajouterparticipant(request):
-    return render(request, 'sortir/ajouterParticipant.html')
+
