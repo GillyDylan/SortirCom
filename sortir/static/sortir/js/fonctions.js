@@ -35,6 +35,11 @@ function majHistorique(adresseSuivante, page) {
     window.history.pushState( {page: page }, "", adresseSuivante);
 }
 
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
 
 window.addEventListener('popstate', function(event) {
     if (event.state) {

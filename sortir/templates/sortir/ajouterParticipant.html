@@ -1,84 +1,48 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-4" id="ajouter_participant">
-            <h2>Ajouter Participant</h2>
-            <form id="AjouterParticipant" method="post">
-                {% csrf_token %}
-                <script type="text/javascript">
-                    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-                </script>
-                <div class="row">
-                    <div class="col-sm-5 col-md-5 labels">
-                        {{ form.pseudo.label_tag }}
-                        <br>
-                        {{ form.nom.label_tag }}
-                        <br>
-                        {{ form.prenom.label_tag }}
-                        <br>
-                        {{ form.password.label_tag }}
-                        <br>
-                        {{ form.confirmPassword.label_tag}}
-                        <br>
-                        {{ form.email.label_tag }}
-                        <br>
-                        {{ form.telephone.label_tag }}
-                        <br>
-                        {{ form.site.label_tag }}
-                        <br>
-                        {{ form.administrateur.label_tag }}
-                        <br>
-                        {{ form.actif.label_tag }}
-                    </div>
-                    <div class="col-sm-5 col-md-5 champs float-left">
-                        {{ form.pseudo }}{{ form.pseudo.errors }}
-
-                        {{ form.nom }}{{ form.nom.errors }}
-
-                        {{ form.prenom }}{{ form.prenom.errors }}
-
-                        {{ form.password }}{{ form.password.errors }}
-
-                        {{ form.confirmPassword }} {{ form.confirmPassword.errors }}
-
-                        {{ form.email }}{{ form.email.errors }}
-
-                        {{ form.telephone }}{{ form.telephone.errors }}
-
-                        {{ form.site }}{{ form.site.errors }}
-
-                        {{ form.administrateur }}{{ form.administrateur.errors }}
-
-                        {{ form.actif }}{{ form.actif.errors }}
-                    </div>
+    <div id="ajouter_participant" class="row col-sm-10 col-md-6 offset-sm-1 offset-md-3">
+        <h2>Ajouter Participant</h2>
+        <form id="AjouterParticipant" method="post">
+            {% load static %}
+            {% csrf_token %}
+            <div class="form-group row">
+                {{ form.pseudo.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.pseudo }} {{ form.pseudo.errors }}
                 </div>
-                <input type="submit" />
-            </form>
-        </div>
+            </div>
+            <div class="form-group row ">
+                {{ form.nom.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.nom }} {{ form.nom.errors }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form.prenom.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.prenom }} {{ form.prenom.errors }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form.password.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.password }} {{ form.password.errors }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form.confirmPassword.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.confirmPassword }} {{ form.confirmPassword.errors }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form.pseudo.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.pseudo }} {{ form.pseudo.errors }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"></button>
+
+        </form>
     </div>
 </div>
-</div>
-<script type="text/javascript">
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    var frm = $('#AjouterParticipant');
-    frm.submit(function () {
-        $.ajax({
-            method: "POST",
-            url:'/Ajax/AjouterParticipant/',
-            data: frm.serialize(),
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("HTTP_X_CSRFTOKEN", csrftoken);
-                }
-            },
-            success: function (data) {
-
-            },
-            error: function(data) {
-            }
-        });
-        return false;
-    });
-</script>
+<script src="{% static 'sortir/js/ajouterParticipant.js '%}"></script>
