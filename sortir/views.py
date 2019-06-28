@@ -26,6 +26,13 @@ def deconnecter(request):
     return render(request, 'sortir/deconnecter.html')
 
 
+def formulaireajouterparticipant(request):
+    form = ParticipantForm()
+    context = {'form': form}
+    return render(request, 'sortir/ajouterParticipant.html', context)
+
+
+
 def afficherprofil(request, idOrganisateur, idSortie):
     if request.session.__contains__('userId'):
         sortie = Sortie.objects.get(pk=idSortie)
@@ -80,5 +87,4 @@ def ajouterparticipant(request):
     return render(request, 'sortir/ajouterParticipant.html', context)
 
 
-def formulaireajouterparticipant(request):
-    return render(request, 'sortir/ajouterParticipant.html')
+

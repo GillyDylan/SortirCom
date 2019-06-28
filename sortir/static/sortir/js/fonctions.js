@@ -22,34 +22,11 @@ function changerPageAjax(id){
         url :'/Ajax/'+ id + '/',
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
         method : 'GET',
-        data : {
-        },
         success : function(resultText) {
             $('#contenu').html(resultText);
         },
         error : function(jqXHR, exception) {
-            console.log('Une erreur est survenue');
-        }
-    });
-}
-
-function envoiFormulaireAjax(id){
-    $.ajax({
-        url :'/Ajax/'+ id + '/',
-        contentType: "application/x-www-form-urlencoded;charset=utf-8",
-        method : 'POST',
-        data : {
-        },
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        },
-        success : function(resultText) {
-            alert('ok');
-        },
-        error : function(jqXHR, exception) {
-            alert('pas ok');
+            alert('Une erreur est survenue');
         }
     });
 }
@@ -57,13 +34,6 @@ function envoiFormulaireAjax(id){
 function majHistorique(adresseSuivante, page) {
     window.history.pushState( {page: page }, "", adresseSuivante);
 }
-
-
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-
 
 
 window.addEventListener('popstate', function(event) {
@@ -78,5 +48,7 @@ window.addEventListener('load', function() {
     if(adresseActuelle.length > 1){
         var id = adresseActuelle.substring(index+1);
         changerPageAjax(id);
+    }else{
+        changerPageAjax("Accueil");
     }
 }, false);
