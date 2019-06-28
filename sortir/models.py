@@ -24,6 +24,9 @@ class Etat(models.Model):
 class Site(models.Model):
     nom = models.CharField(unique=True, blank=False, max_length=50)
 
+    def __str__(self):
+        return self.nom
+
 
 class Participant(models.Model):
     pseudo = models.CharField(unique=True, blank=False, max_length=50)

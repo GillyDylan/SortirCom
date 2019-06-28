@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from sortir.forms import ParticipantForm
+from sortir.forms import ParticipantForm, ConnexionForm
 from sortir.models import Participant, Sortie, Site
 from django.contrib.auth import hashers
 # Create your views here.
@@ -26,6 +26,19 @@ def deconnecter(request):
     return render(request, 'sortir/deconnecter.html')
 
 
+def connection(request):
+    form = ConnexionForm(request.POST or None)
+    if form.is_valid():
+        user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'])
+        if user.count() == 1:
+            if hashers.check_password(user.password, form.cleaned_data['password']):
+                request.session['userId'] = form.cleaned_data['pseudo']
+                return render(request, 'sortir/connecter.html')
+
+    context = {'form': form}
+    return render(request, 'sortir/connecter.html', context)
+
+
 def afficherprofil(request, idOrganisateur, idSortie):
     if request.session.__contains__('userId'):
         sortie = Sortie.objects.get(pk=idSortie)
@@ -35,7 +48,7 @@ def afficherprofil(request, idOrganisateur, idSortie):
             context = {'participant': participant}
             return render(request, 'sortir/afficherProfil.html', context)
 
-    return render(request,'sortir/index.html')
+    return redirect(request,'sortir/conn.html')
 
 
 def modifierprofil(request):
