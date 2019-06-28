@@ -31,18 +31,18 @@ def formulaireajouterparticipant(request):
     return render(request, 'sortir/ajouterParticipant.html', context)
 
 
-
-def connection(request):
+def connexion(request):
     form = ConnexionForm(request.POST or None)
     if form.is_valid():
-        user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'])
+        user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'], password=form.cleaned_data['password'])
         if user.count() == 1:
-            if hashers.check_password(user.password, form.cleaned_data['password']):
-                request.session['userId'] = form.cleaned_data['pseudo']
-                return render(request, 'sortir/connecter.html')
-
+            request.session['userId'] = user[0].id
+            print(request.session.get('userId'))
+            return render(request, 'sortir/accueil.html')
+        else:
+            print('erreur ' + str(user.count()))
     context = {'form': form}
-    return render(request, 'sortir/connecter.html', context)
+    return render(request, 'sortir/connexion.html', context)
 
 
 def afficherprofil(request, idOrganisateur, idSortie):
@@ -65,7 +65,7 @@ def modifierprofil(request):
             user.pseudo = form.cleaned_data['pseudo'] if user.pseudo != form.cleaned_data['pseudo'] else None
             user.nom = form.cleaned_data['nom'] if user.nom != form.cleaned_data['nom'] else None
             user.prenom = form.cleaned_data['prenom'] if user.prenm != form.cleaned_data['prenom'] else None
-            user.password = hashers.make_password(form.cleaned_data['password']) if user.password != hashers.make_password else None
+            user.password = form.cleaned_data['password'] if user.password != form.cleaned_data['password'] else None
             user.site = form.cleaned_data['site'] if user.site != form.cleaned_data['site'] else None
             user.save()
 
@@ -85,10 +85,10 @@ def ajouterparticipant(request):
     print(form.is_valid(), form.errors, type(form.errors))
 
     if form.is_valid():
-        print('je devrais reussir a l\'ajouter en bdd')
-        user.password = hashers.make_password(user.password)
+        # Reverifier le hashage !!!
+        # user.password = hashers.make_password(user.password)
         user.save()
-        return render(request, 'sortir/index.html')
+        form = ParticipantForm()
 
     context = {'form': form}
     return render(request, 'sortir/ajouterParticipant.html', context)

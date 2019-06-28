@@ -24,6 +24,7 @@ urlpatterns = [
     path('Ajax/', include('sortir.urls')),
     path('Accueil', views.index),
     path('Profil', views.index),
+    path('Connexion', views.index),
     path('Deconnecter', views.index),
     path('FormulaireAjouterParticipant', views.index),
 ]
