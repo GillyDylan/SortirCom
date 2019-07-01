@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 from sortir.forms import ParticipantForm, ConnexionForm
 from sortir.models import Participant, Sortie, Site
+from sortir import views
 from django.contrib.auth import hashers
 # Create your views here.
 
@@ -15,15 +16,29 @@ def index(request):
 
 
 def accueil(request):
-    return render(request, 'sortir/accueil.html')
+    if 'userId' not in request.session:
+        form = ConnexionForm(request.POST or None)
+        context = {'form': form}
+        return render(request, 'sortir/connexion.html', context)
+    else:
+        return render(request, 'sortir/accueil.html')
 
 
 def profil(request):
-    return render(request, 'sortir/profil.html')
+    if 'userId' not in request.session:
+        form = ConnexionForm(request.POST or None)
+        context = {'form': form}
+        return render(request, 'sortir/connexion.html', context)
+    else:
+        return render(request, 'sortir/profil.html')
 
 
 def deconnecter(request):
-    return render(request, 'sortir/deconnecter.html')
+    del request.session['userId']
+    print('deco')
+    form = ConnexionForm(request.POST or None)
+    context = {'form': form}
+    return render(request, 'sortir/connexion.html', context)
 
 
 def formulaireajouterparticipant(request):
@@ -33,15 +48,15 @@ def formulaireajouterparticipant(request):
 
 def connexion(request):
     form = ConnexionForm(request.POST or None)
-    if form.is_valid():
-        user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'], password=form.cleaned_data['password'])
-        if user.count() == 1:
-            request.session['userId'] = user[0].id
-            print(request.session.get('userId'))
-            return render(request, 'sortir/accueil.html')
-        else:
-            print('erreur ' + str(user.count()))
     context = {'form': form}
+    if 'userId' not in request.session:
+        if form.is_valid():
+            user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'],
+                                              password=form.cleaned_data['password'])
+            if user.count() == 1:
+                print('connection')
+                request.session['userId'] = user[0].id
+                return render(request, 'sortir/accueil.html', )
     return render(request, 'sortir/connexion.html', context)
 
 
@@ -53,8 +68,7 @@ def afficherprofil(request, idOrganisateur, idSortie):
             participant = Participant.objects.get(pk=idOrganisateur)
             context = {'participant': participant}
             return render(request, 'sortir/afficherProfil.html', context)
-
-    return render(request,'sortir/index.html')
+    return render(request, 'sortir/index.html')
 
 
 def modifierprofil(request):
