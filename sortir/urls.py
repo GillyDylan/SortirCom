@@ -13,6 +13,6 @@ urlpatterns = [
 
 
     path('Connexion/', views.connexion, name='connexion'),
-    path('AfficherProfil/<idOrganisateur>/', views.afficherprofil, name='afficherprofil'),
+    path('AfficherProfil_<idOrganisateur>/', views.afficherprofil, name='afficherprofil'),
     path('AjouterParticipant/', views.ajouterparticipant, name='ajouterparticipant'),
 ]

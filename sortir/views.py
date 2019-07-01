@@ -79,33 +79,27 @@ def connexion(request):
     context = {'form': form}
     if 'userId' not in request.session:
         if form.is_valid():
-            user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'],
-                                              password=form.cleaned_data['password'])
-            if user.count() == 1:
-                print('connection')
-                request.session['userId'] = user[0].id
-                if anciennePage == "Profil":
-                    user = Participant.objects.get(pk=request.session['userId'])
-                    form = ParticipantForm(request.GET or None, instance=user)
-                    if form.is_valid():
-                        user.password = hashers.make_password(user.password)
-                        user.save()
-
-                    context = {'user': user, 'form': form}
-                    return render(request, 'sortir/modifierProfil.html', context)
-                elif anciennePage == "Accueil":
-                    return accueil(request)
-                else:
-                    return accueil(request)
             user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'])
-            if hashers.check_password(form.cleaned_data['password'],user[0].password):
+            if hashers.check_password(form.cleaned_data['password'], user[0].password):
                 if user.count() == 1:
                     print('connection')
                     request.session['userId'] = user[0].id
                     request.session['isAdmin'] = user[0].administrateur
                     if not form.cleaned_data.get('remember'):
-                        form.request.session.set_expiry(0)
-                    return render(request, 'sortir/accueil.html', )
+                        request.session.set_expiry(0)
+                    if anciennePage == "Profil":
+                        user = Participant.objects.get(pk=request.session['userId'])
+                        form = ParticipantForm(request.GET or None, instance=user)
+                        if form.is_valid():
+                            user.password = hashers.make_password(user.password)
+                            user.save()
+
+                        context = {'user': user, 'form': form}
+                        return render(request, 'sortir/modifierProfil.html', context)
+                    elif anciennePage == "Accueil":
+                        return accueil(request)
+                    else:
+                        return accueil(request)
     return render(request, 'sortir/connexion.html', context)
 
 
