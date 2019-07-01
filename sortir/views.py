@@ -45,20 +45,14 @@ def affichersortie(request, idsortie):
     return render(request, 'sortir/afficherSortie.html', context)
 
 
-# A supprimer plus tard
-
-
-def profil(request):
-    if 'userId' not in request.session:
-        form = ConnexionForm(request.POST or None)
-        context = {'form': form}
-        return render(request, 'sortir/connexion.html', context)
-    else:
-        return render(request, 'sortir/profil.html')
+def modifiersortie(request, idsortie):
+    sortie = Sortie.objects.get(pk=idsortie)
+    form = SortieForm(request.POST or None, instance=sortie)
+    context = {'form': form}
+    return render(request, 'sortir/modifierSortie.html', context)
 
 
 # Views lier le model Participant
-
 
 def deconnexion(request):
     if 'userId' in request.session:
@@ -85,7 +79,7 @@ def connexion(request):
                     request.session['userId'] = user[0].id
                     request.session['isAdmin'] = user[0].administrateur
                     if not form.cleaned_data.get('remember'):
-                        form.request.session.set_expiry(0)
+                        request.session.set_expiry(0)
                     return render(request, 'sortir/accueil.html', )
     return render(request, 'sortir/connexion.html', context)
 

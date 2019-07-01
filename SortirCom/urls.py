@@ -23,7 +23,7 @@ urlpatterns = [
     path('Ajax/', include('sortir.urls')),
     path('Accueil', views.index),
     path('Profil', views.index),
-    path('AfficherProfil/<idOrganisateur>', views.index),
+    path('AfficherProfil_<idOrganisateur>', views.index),
     path('ModifierProfil', views.index),
     path('Connexion', views.index),
     path('Deconnexion', views.index),
