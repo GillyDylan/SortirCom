@@ -13,7 +13,8 @@ frm.submit(function () {
                 xhr.setRequestHeader("HTTP_X_CSRFTOKEN", jQuery("[name=csrfmiddlewaretoken]").val());
             }
         },
-       success : function(resultText) {
+        success : function(resultText) {
+            verifierUtilisateurActuel();
             $('#contenu').html(resultText);
         },
         error: function(data) {

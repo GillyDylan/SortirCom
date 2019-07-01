@@ -23,7 +23,8 @@ function changerPageAjax(id){
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
         method : 'GET',
         data:'anciennePage=' + anciennePage.get(0).id,
-        success : function(resultText, response) {
+        success : function(resultText) {
+            verifierUtilisateurActuel();
             $('#contenu').html(resultText);
             if(id === 'Deconnexion'){
                 changerPage($('#'+anciennePage.get(0).id))
@@ -45,6 +46,8 @@ function csrfSafeMethod(method) {
 }
 
 
+
+
 window.addEventListener('popstate', function(event) {
     if (event.state) {
         changerPageAjax(event.state.page)
@@ -52,14 +55,36 @@ window.addEventListener('popstate', function(event) {
 }, false);
 
 window.addEventListener('load', function() {
+    verifierUtilisateurActuel();
     var adresseActuelle = window.location.pathname;
     var index = adresseActuelle.lastIndexOf("/");
-    var underscore = adresseActuelle.lastIndexOf("_")
-    if(adresseActuelle.length > 1){
-        var id = adresseActuelle.substring(index+1, underscore);
-        alert('id');
+    if(adresseActuelle.length > 1) {
+        var id = adresseActuelle.substring(index + 1);
         changerPageAjax(id);
     }else{
         changerPageAjax("Accueil");
     }
 }, false);
+
+
+function verifierUtilisateurActuel(){
+    $.ajax({
+        method: "GET",
+        dataType: 'json',
+        url:'/Ajax/GetSession/',
+        success : function(data) {
+            if(data.userId != 0){
+                $('#Accueil').show();
+                $('#Profil').show();
+                $('#Deconnexion').show();
+                if(data.isAdmin){
+                    $('#Villes').show();
+                    $('#Sites').show();
+                    $('#Participants').show();
+                }
+            }else {
+                $('.nav-item').hide();
+            }
+        }
+    });
+}

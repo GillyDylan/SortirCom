@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
 from sortir.models import Participant, Sortie, Site
 from django.contrib.auth import hashers
@@ -44,19 +44,6 @@ def affichersortie(request, idsortie):
     context = {'sortie': sortie}
     return render(request, 'sortir/afficherSortie.html', context)
 
-
-# A supprimer plus tard
-
-
-def profil(request):
-    if 'userId' not in request.session:
-        form = ConnexionForm(request.POST or None)
-        context = {'form': form}
-        return render(request, 'sortir/connexion.html', context)
-    else:
-        return render(request, 'sortir/profil.html')
-
-
 # Views lier le model Participant
 
 
@@ -75,14 +62,15 @@ def formulaireajouterparticipant(request):
 
 def connexion(request):
     anciennePage = request.headers["Referer"][request.headers["Referer"].rfind('/')+1:]
+
     form = ConnexionForm(request.POST or None)
     context = {'form': form}
+
     if 'userId' not in request.session:
         if form.is_valid():
             user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'])
             if hashers.check_password(form.cleaned_data['password'], user[0].password):
                 if user.count() == 1:
-                    print('connection')
                     request.session['userId'] = user[0].id
                     request.session['isAdmin'] = user[0].administrateur
                     if not form.cleaned_data.get('remember'):
@@ -90,10 +78,6 @@ def connexion(request):
                     if anciennePage == "Profil":
                         user = Participant.objects.get(pk=request.session['userId'])
                         form = ParticipantForm(request.GET or None, instance=user)
-                        if form.is_valid():
-                            user.password = hashers.make_password(user.password)
-                            user.save()
-
                         context = {'user': user, 'form': form}
                         return render(request, 'sortir/modifierProfil.html', context)
                     elif anciennePage == "Accueil":
@@ -113,7 +97,7 @@ def afficherprofil(request, idOrganisateur):
                 context = {'user': participant}
                 return render(request, 'sortir/afficherProfil.html', context)
 
-    return redirect('accueil')
+    return connexion(request)
 
 
 def modifierprofil(request):
@@ -127,7 +111,7 @@ def modifierprofil(request):
         context = {'user': user, 'form': form}
         return render(request, 'sortir/modifierProfil.html', context)
 
-    return render(request, 'sortir/index.html')
+    return connexion(request)
 
 
 def ajouterparticipant(request):
@@ -167,3 +151,18 @@ def villes(request):
 
 def participants(request):
     return render(request, 'sortir/participants.html')
+
+
+def getsession(request):
+    if 'userId' in request.session:
+        user = Participant.objects.get(pk=request.session['userId'])
+        data = {
+            'userId': user.id,
+            'isAdmin': user.administrateur
+        }
+    else:
+        data = {
+            'userId': 0,
+            'isAdmin': False
+        }
+    return JsonResponse(data)
