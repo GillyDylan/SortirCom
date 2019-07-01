@@ -50,6 +50,7 @@ def affichersortie(request, idsortie):
 def deconnexion(request):
     if 'userId' in request.session:
         del request.session['userId']
+        del request.session['isAdmin']
     form = ConnexionForm(request.POST or None)
     context = {'form': form}
     return render(request, 'sortir/connexion.html', context)
@@ -80,8 +81,12 @@ def connexion(request):
                         form = ParticipantForm(request.GET or None, instance=user)
                         context = {'user': user, 'form': form}
                         return render(request, 'sortir/modifierProfil.html', context)
-                    elif anciennePage == "Accueil":
-                        return accueil(request)
+                    elif anciennePage == "Sites" and user[0].administrateur:
+                        return sites(request)
+                    elif anciennePage == "Villes" and user[0].administrateur:
+                        return villes(request)
+                    elif anciennePage == "Participants" and user[0].administrateur:
+                        return participants(request)
                     else:
                         return accueil(request)
     return render(request, 'sortir/connexion.html', context)
@@ -146,11 +151,29 @@ def sites(request):
 
 
 def villes(request):
-    return render(request, 'sortir/villes.html')
+    if 'userId' in request.session:
+        user = Participant.objects.get(pk=request.session['userId'])
+        context = {'user': user}
+        if user.administrateur:
+            return render(request, 'sortir/villes.html', context)
+        else:
+            return accueil(request)
+    form = ConnexionForm(request.POST or None)
+    context = {'form': form}
+    return render(request, 'sortir/connexion.html', context)
 
 
 def participants(request):
-    return render(request, 'sortir/participants.html')
+    if 'userId' in request.session:
+        user = Participant.objects.get(pk=request.session['userId'])
+        context = {'user': user}
+        if user.administrateur:
+            return render(request, 'sortir/participants.html', context)
+        else:
+            return accueil(request)
+    form = ConnexionForm(request.POST or None)
+    context = {'form': form}
+    return render(request, 'sortir/connexion.html', context)
 
 
 def getsession(request):

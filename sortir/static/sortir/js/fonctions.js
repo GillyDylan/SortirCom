@@ -45,28 +45,6 @@ function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 
-
-
-
-window.addEventListener('popstate', function(event) {
-    if (event.state) {
-        changerPageAjax(event.state.page)
-    }
-}, false);
-
-window.addEventListener('load', function() {
-    verifierUtilisateurActuel();
-    var adresseActuelle = window.location.pathname;
-    var index = adresseActuelle.lastIndexOf("/");
-    if(adresseActuelle.length > 1) {
-        var id = adresseActuelle.substring(index + 1);
-        changerPageAjax(id);
-    }else{
-        changerPageAjax("Accueil");
-    }
-}, false);
-
-
 function verifierUtilisateurActuel(){
     $.ajax({
         method: "GET",
@@ -88,3 +66,23 @@ function verifierUtilisateurActuel(){
         }
     });
 }
+
+
+window.addEventListener('popstate', function(event) {
+    if (event.state) {
+        changerPageAjax(event.state.page)
+    }
+}, false);
+
+window.addEventListener('load', function() {
+    var adresseActuelle = window.location.pathname;
+    var index = adresseActuelle.lastIndexOf("/");
+    if(adresseActuelle.length > 1) {
+        var id = adresseActuelle.substring(index + 1);
+        changerPageAjax(id);
+    }else{
+        changerPageAjax("Accueil");
+    }
+}, false);
+
+
