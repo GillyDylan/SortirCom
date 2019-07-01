@@ -2,7 +2,6 @@ function changerPage(objet){
     const id = objet.attr("id");
     var adresseActuelle = window.location.pathname;
     var adresseSuivante;
-
     var index = adresseActuelle.lastIndexOf("/");
     if(index === -1){
         adresseSuivante = adresseActuelle + id;
@@ -23,7 +22,8 @@ function changerPageAjax(id){
         url :'/Ajax/'+ id + '/',
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
         method : 'GET',
-        success : function(resultText) {
+        data:'anciennePage=' + anciennePage.get(0).id,
+        success : function(resultText, response) {
             $('#contenu').html(resultText);
             if(id === 'Deconnexion'){
                 changerPage($('#'+anciennePage.get(0).id))
@@ -54,8 +54,10 @@ window.addEventListener('popstate', function(event) {
 window.addEventListener('load', function() {
     var adresseActuelle = window.location.pathname;
     var index = adresseActuelle.lastIndexOf("/");
+    var underscore = adresseActuelle.lastIndexOf("_")
     if(adresseActuelle.length > 1){
-        var id = adresseActuelle.substring(index+1);
+        var id = adresseActuelle.substring(index+1, underscore);
+        alert('id');
         changerPageAjax(id);
     }else{
         changerPageAjax("Accueil");
