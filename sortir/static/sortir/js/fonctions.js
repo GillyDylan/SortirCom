@@ -23,7 +23,8 @@ function changerPageAjax(id){
         url :'/Ajax/'+ id + '/',
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
         method : 'GET',
-        success : function(resultText) {
+        data:'anciennePage=' + anciennePage.get(0).id,
+        success : function(resultText, response) {
             $('#contenu').html(resultText);
             if(id === 'Deconnexion'){
                 changerPage($('#'+anciennePage.get(0).id))

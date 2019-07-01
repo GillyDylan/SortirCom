@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from sortir.forms import ParticipantForm, ModParticipantForm, ConnexionForm, SortieForm
+from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
 from sortir.models import Participant, Sortie, Site
 from django.contrib.auth import hashers
 # Create your views here.
@@ -74,10 +74,29 @@ def formulaireajouterparticipant(request):
 
 
 def connexion(request):
+    anciennePage = request.headers["Referer"][request.headers["Referer"].rfind('/')+1:]
     form = ConnexionForm(request.POST or None)
     context = {'form': form}
     if 'userId' not in request.session:
         if form.is_valid():
+            user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'],
+                                              password=form.cleaned_data['password'])
+            if user.count() == 1:
+                print('connection')
+                request.session['userId'] = user[0].id
+                if anciennePage == "Profil":
+                    user = Participant.objects.get(pk=request.session['userId'])
+                    form = ParticipantForm(request.GET or None, instance=user)
+                    if form.is_valid():
+                        user.password = hashers.make_password(user.password)
+                        user.save()
+
+                    context = {'user': user, 'form': form}
+                    return render(request, 'sortir/modifierProfil.html', context)
+                elif anciennePage == "Accueil":
+                    return accueil(request)
+                else:
+                    return accueil(request)
             user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'])
             if hashers.check_password(form.cleaned_data['password'],user[0].password):
                 if user.count() == 1:
@@ -106,7 +125,7 @@ def afficherprofil(request, idOrganisateur):
 def modifierprofil(request):
     if 'userId' in request.session:
         user = Participant.objects.get(pk=request.session['userId'])
-        form = ModParticipantForm(request.POST or None, instance=user)
+        form = ParticipantForm(request.POST or None, instance=user)
         if form.is_valid():
             user.password = hashers.make_password(user.password)
             user.save()
@@ -135,4 +154,22 @@ def ajouterparticipant(request):
     return render(request, 'sortir/ajouterParticipant.html', context)
 
 
+def sites(request):
+    if 'userId' in request.session:
+        user = Participant.objects.get(pk=request.session['userId'])
+        context = {'user': user}
+        if user.administrateur:
+            return render(request, 'sortir/sites.html', context)
+        else:
+            return accueil(request)
+    form = ConnexionForm(request.POST or None)
+    context = {'form': form}
+    return render(request, 'sortir/connexion.html', context)
 
+
+def villes(request):
+    return render(request, 'sortir/villes.html')
+
+
+def participants(request):
+    return render(request, 'sortir/participants.html')
