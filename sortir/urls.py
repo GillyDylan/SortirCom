@@ -9,6 +9,5 @@ urlpatterns = [
     path('Deconnexion/', views.deconnexion, name='deconnexion'),
     path('Connexion/', views.connexion, name='connexion'),
     path('AfficherProfil/<idOrganisateur>/', views.afficherprofil, name='afficherprofil'),
-    path('FormulaireAjouterParticipant/', views.ajouterparticipant, name='ajouterparticipant'),
     path('AjouterParticipant/', views.ajouterparticipant, name='ajouterparticipant'),
 ]

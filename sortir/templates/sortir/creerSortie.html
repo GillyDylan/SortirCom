@@ -5,43 +5,94 @@
         <form id="CreerSortie" method="post" class="col-12">
             {% load static %}
             {% csrf_token %}
-            <div class="form-group row text-right">
-                {{ form.nom.label_tag }}
-                <div class="col-sm-12 col-md-7">
-                    {{ form.nom }} {{ form.pseudo.nom }}
+            <div>
+                <div class="form-group row text-right">
+                    {{ form.nom.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.nom }} {{ form.pseudo.nom }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row text-right">
-                {{ form.dateHeureDebut.label_tag }}
-                <div class="col-sm-12 col-md-7">
-                    {{ form.dateHeureDebut }} {{ form.email.dateHeureDebut }}
+                <div class="form-group row text-right">
+                    {{ form.dateHeureDebut.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.dateHeureDebut }} {{ form.email.dateHeureDebut }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row text-right">
-                {{ form.dateHeureFin.label_tag }}
-                <div class="col-sm-12 col-md-7">
-                    {{ form.dateHeureFin }} {{ form.dateHeureFin.errors }}
+                <div class="form-group row text-right">
+                    {{ form.dateHeureFin.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.dateHeureFin }} {{ form.dateHeureFin.errors }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row text-right">
-                {{ form.nbinscriptionMax.label_tag }}
-                <div class="col-sm-12 col-md-7">
-                    {{ form.nbinscriptionMax }} {{ form.nbinscriptionMax.errors }}
+                <div class="form-group row text-right">
+                    {{ form.nbinscriptionMax.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.nbinscriptionMax }} {{ form.nbinscriptionMax.errors }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row text-right">
-                {{ form.dateLimiteInscription.label_tag }}
-                <div class="col-sm-12 col-md-7">
-                    {{ form.dateLimiteInscription }} {{ form.dateLimiteInscription.errors }}
+                <div class="form-group row text-right">
+                    {{ form.dateLimiteInscription.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.dateLimiteInscription }} {{ form.dateLimiteInscription.errors }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row text-right">
-                {{ form.infosSortie.label_tag }}
-                <div class="col-sm-12 col-md-7">
-                    {{ form.infosSortie }} {{ form.infosSortie.errors }}
+                <div class="form-group row text-right">
+                    {{ form.infosSortie.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.infosSortie }} {{ form.infosSortie.errors }}
+                    </div>
                 </div>
+
             </div>
+
+            <div>
+                <div class="form-group row text-right">
+                    Ville organisatrice :
+                    <div class="col-sm-12 col-md-7">
+                        {{ villeOrga }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    {{ form.ville.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.ville }} {{ form.ville.errors }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    {{ form.lieu.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.lieu }} {{ form.lieu.errors }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    {{ form.lieu.rue.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.lieu.rue }} {{ form.lieu.rue.errors }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    {{ form.ville.codePostal.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.ville.codePostal }} {{ form.ville.codePostal.errors }}
+                    </div>
+                </div>
+                                <div class="form-group row text-right">
+                    {{ form.lieu.latitude.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.lieu.latitude }} {{ form.lieu.latitude.errors }}
+                    </div>
+                </div>
+                                <div class="form-group row text-right">
+                    {{ form.lieu.longitude.label_tag }}
+                    <div class="col-sm-12 col-md-7">
+                        {{ form.lieu.longitude }} {{ form.lieu.longitude.errors }}
+                    </div>
+                </div>
+
+            </div>
+
             <br>
+
             <button type="submit" class="btn btn-primary center-block">Ajouter</button>
         </form>
     </div>

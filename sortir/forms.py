@@ -29,11 +29,31 @@ class ParticipantForm(SuperParticipantForm):
         return cleaned_data
 
 
+class ModParticipantForm(SuperParticipantForm):
+    confirmPassword = forms.CharField(widget=forms.PasswordInput, required=False, max_length=100, label='Confirmer :')
+
+    class Meta(SuperParticipantForm.Meta):
+        fields = SuperParticipantForm.Meta.fields + ['confirmPassword']
+
+    def __init__(self, *args, **kwargs):
+        super(ModParticipantForm, self).__init__(*args, **kwargs)
+        self.fields['password'].required = False
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = self.cleaned_data.get('password')
+        conf_password = self.cleaned_data.get('confirmPassword')
+        if password != conf_password:
+            raise forms.ValidationError("Attention : Mot de passe et confirmation différents")
+        return cleaned_data
+
+
 class SortieForm(forms.ModelForm):
+    ville = forms.ModelChoiceField(queryset=Ville.objects.all())
 
     class Meta:
         model = Sortie
-        fields = ['nom', 'dateHeureDebut', 'dateHeureFin', 'dateLimiteInscription', 'infosSortie', 'lieu', 'nbinscriptionMax']
+        fields = ['nom', 'dateHeureDebut', 'dateHeureFin', 'dateLimiteInscription', 'infosSortie', 'lieu', 'nbinscriptionMax', 'organisateur']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -81,5 +101,5 @@ class LieuForm(forms.ModelForm):
 
 class ConnexionForm(forms.Form):
     pseudo = forms.CharField(min_length=3, max_length=50, required=True, label='Pseudo :')
-    password = forms.CharField(widget=forms.PasswordInput, min_length=6, max_length=100, required=True, label='Mot de Passe :')
+    password = forms.CharField(widget=forms.PasswordInput, min_length=1, max_length=100, required=True, label='Mot de Passe :')
     remember = forms.BooleanField(required=False, label='Se souvenir de moi ?')

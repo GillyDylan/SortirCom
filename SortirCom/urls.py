@@ -27,5 +27,5 @@ urlpatterns = [
     path('ModifierProfil', views.index),
     path('Connexion', views.index),
     path('Deconnexion', views.index),
-    path('FormulaireAjouterParticipant', views.index),
+    path('AjouterParticipant', views.index),
 ]

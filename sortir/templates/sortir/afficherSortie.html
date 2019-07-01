@@ -1,0 +1,90 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-10 col-md-3 offset-1" id="profil_img">
+            <a href="https://placeholder.com"><img src="https://via.placeholer.com/200"></a>
+        </div>
+        <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-0" id="sortie_detail">
+            {% csrf_token %}
+            <h2>Afficher uen sortie</h2>
+            <div>
+                <div class="form-group row text-right">
+                    Nom de la sortie :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.nom }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Date et heure de la sortie
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.dateHeureDebut }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Date et heure de la fin :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.dateHeureFin }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Date de fin d'inscription :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.dateLimiteInscription }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Nombre de places :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.nbinscriptionMax }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Description et infos :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.infosSortie }}
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="form-group row text-right">
+                    Ville Organisatrice :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.organisateur.site.nom }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Lieu :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.lieu.nom }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Rue :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.lieu.rue }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Code postal :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.lieu.ville.codePostal }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Latitude :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.lieu.latitude }}
+                    </div>
+                </div>
+                <div class="form-group row text-right">
+                    Longitude :
+                    <div class="col-sm-12 col-md-7">
+                        {{ sortie.lieu.longitude }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
