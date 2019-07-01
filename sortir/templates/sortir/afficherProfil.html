@@ -4,22 +4,38 @@
             <a href="https://placeholder.com"><img src="https://via.placeholer.com/200"></a>
         </div>
         <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-0" id="profil_detail">
-            <h2>Placeholder</h2>
-            <div class="row">
-                <div class="col-6">
-                    <label>Prénom :</label>
-                    <label>Nom :</label>
-                    <label>Téléphone :</label>
-                    <label>Email :</label>
-                    <label>Ville de rattachement : </label>
+            {% csrf_token %}
+            <h2>{{ user.pseudo }}</h2>
+            <div class="form-group row text-right">
+                Prénom :
+                <div class="col-sm-12 col-md-7">
+                    {{ user.prenom }}
                 </div>
-                <div class="col-6">
-                    <label>{{ particpant.prenom }}</label>
-                    <label>{{ particpant.nom }}</label>
-                    <label>{{ particpant.telephone }}</label>
-                    <label>{{ particpant.email }}</label>
-                    <label>{{ particpant.site }}</label>
+            </div>
+            <div class="form-group row text-right">
+                Nom :
+                <div class="col-sm-12 col-md-7">
+                    {{ user.nom }}
                 </div>
+            </div>
+            <div class="form-group row text-right">
+                Téléphone
+                <div class="col-sm-12 col-md-7">
+                    {{ user.telephone }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                Email :
+                <div class="col-sm-12 col-md-7">
+                    {{ user.email}}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                Ville de rattachement :
+                <div class="col-sm-12 col-md-7">
+                    {{ user.ville }}
+                </div>
+            </div>
             </div>
 
         </div>

@@ -1,0 +1,49 @@
+<div class="container-fluid text-center" >
+    <h2>Créer une sortie</h2>
+    <br>
+    <div id="ajouter_participant" class="row col-sm-10 col-md-6 offset-sm-1 offset-md-3">
+        <form id="CreerSortie" method="post" class="col-12">
+            {% load static %}
+            {% csrf_token %}
+            <div class="form-group row text-right">
+                {{ form.nom.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.nom }} {{ form.pseudo.nom }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.dateHeureDebut.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.dateHeureDebut }} {{ form.email.dateHeureDebut }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.dateHeureFin.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.dateHeureFin }} {{ form.dateHeureFin.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.nbinscriptionMax.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.nbinscriptionMax }} {{ form.nbinscriptionMax.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.dateLimiteInscription.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.dateLimiteInscription }} {{ form.dateLimiteInscription.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.infosSortie.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.infosSortie }} {{ form.infosSortie.errors }}
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary center-block">Ajouter</button>
+        </form>
+    </div>
+</div>
+<script src="{% static 'sortir/js/creerSortie.js '%}"></script>

@@ -1,15 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.http import HttpResponse
 from sortir.forms import ParticipantForm, ConnexionForm
 from sortir.models import Participant, Sortie, Site
-from sortir import views
 from django.contrib.auth import hashers
 # Create your views here.
 
 
-def workspace(request):
-    return HttpResponse("Coucou")
-
+# Views pour charger la racine du site
 
 def index(request):
     return render(request, 'sortir/index.html')
@@ -23,7 +20,23 @@ def accueil(request):
     else:
         return render(request, 'sortir/accueil.html')
 
+# Views pour le models Ville
+# Views pour le models Lieu
+# Views pour le models Site
+# Views pour le models Sortie
 
+def creerSortie(request):
+    sortie = Sortie()
+    form = SortieForm(request.POST or None, instance=sortie)
+
+    if form.is_valid():
+        sortie.save()
+        return redirect('/Accueil/')
+
+    context = {'form': form}
+    return render(request, 'sortir/creerSortie.html', context)
+
+# A supprimer plus tard
 def profil(request):
     if 'userId' not in request.session:
         form = ConnexionForm(request.POST or None)
@@ -32,11 +45,13 @@ def profil(request):
     else:
         return render(request, 'sortir/profil.html')
 
+# Views lier le model Participant
 
-def deconnecter(request):
-    del request.session['userId']
-    print('deco')
-    form = ConnexionForm(request.POST or None)
+def deconnexion(request):
+    if request.session.__contains__('userId'):
+        request.session.delete('userId')
+
+    form = ConnexionForm()
     context = {'form': form}
     return render(request, 'sortir/connexion.html', context)
 
@@ -60,27 +75,25 @@ def connexion(request):
     return render(request, 'sortir/connexion.html', context)
 
 
-def afficherprofil(request, idOrganisateur, idSortie):
+def afficherprofil(request, idOrganisateur):
     if request.session.__contains__('userId'):
-        sortie = Sortie.objects.get(pk=idSortie)
-        if (sortie.get(organisateur=idOrganisateur) is not None &
-                sortie.participants.get(id=request.session['userId'])) is not None:
+    #    sortie = Sortie.objects.get(pk=idSortie)
+    #    if sortie.get(organisateur=idOrganisateur) is not None &
+    #            sortie.participants.get(id=request.session['userId'])) is not None:
             participant = Participant.objects.get(pk=idOrganisateur)
-            context = {'participant': participant}
-            return render(request, 'sortir/afficherProfil.html', context)
-    return render(request, 'sortir/index.html')
+            if participant != None:
+                context = {'user': participant}
+                return render(request, 'sortir/afficherProfil.html', context)
+
+    return redirect('accueil')
 
 
 def modifierprofil(request):
     if request.session.__contains__('userId'):
         user = Participant.objects.get(pk=request.session['userId'])
-        form = ParticipantForm()
+        form = ParticipantForm(request.POST or None, instance=user)
         if form.is_valid():
-            user.pseudo = form.cleaned_data['pseudo'] if user.pseudo != form.cleaned_data['pseudo'] else None
-            user.nom = form.cleaned_data['nom'] if user.nom != form.cleaned_data['nom'] else None
-            user.prenom = form.cleaned_data['prenom'] if user.prenm != form.cleaned_data['prenom'] else None
-            user.password = form.cleaned_data['password'] if user.password != form.cleaned_data['password'] else None
-            user.site = form.cleaned_data['site'] if user.site != form.cleaned_data['site'] else None
+            user.password = hashers.make_password(user.password)
             user.save()
 
         context = {'user': user,'form': form}
@@ -99,8 +112,7 @@ def ajouterparticipant(request):
     print(form.is_valid(), form.errors, type(form.errors))
 
     if form.is_valid():
-        # Reverifier le hashage !!!
-        # user.password = hashers.make_password(user.password)
+        user.password = hashers.make_password(user.password)
         user.save()
         form = ParticipantForm()
 
