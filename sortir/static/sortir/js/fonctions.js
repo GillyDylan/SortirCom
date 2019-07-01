@@ -25,7 +25,7 @@ function changerPageAjax(id){
         method : 'GET',
         success : function(resultText) {
             $('#contenu').html(resultText);
-            if(id === 'Deconnecter'){
+            if(id === 'Deconnexion'){
                 changerPage($('#'+anciennePage.get(0).id))
             }
         },

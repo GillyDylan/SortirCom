@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from sortir.forms import ParticipantForm, ConnexionForm
+from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
 from sortir.models import Participant, Sortie, Site
 from django.contrib.auth import hashers
 # Create your views here.
@@ -36,7 +36,10 @@ def creerSortie(request):
     context = {'form': form}
     return render(request, 'sortir/creerSortie.html', context)
 
+
 # A supprimer plus tard
+
+
 def profil(request):
     if 'userId' not in request.session:
         form = ConnexionForm(request.POST or None)
@@ -47,11 +50,11 @@ def profil(request):
 
 # Views lier le model Participant
 
-def deconnexion(request):
-    if request.session.__contains__('userId'):
-        request.session.delete('userId')
 
-    form = ConnexionForm()
+def deconnexion(request):
+    if 'userId' in request.session:
+        del request.session['userId']
+    form = ConnexionForm(request.POST or None)
     context = {'form': form}
     return render(request, 'sortir/connexion.html', context)
 
@@ -89,7 +92,7 @@ def afficherprofil(request, idOrganisateur):
 
 
 def modifierprofil(request):
-    if request.session.__contains__('userId'):
+    if 'userId' in request.session:
         user = Participant.objects.get(pk=request.session['userId'])
         form = ParticipantForm(request.POST or None, instance=user)
         if form.is_valid():
@@ -98,8 +101,9 @@ def modifierprofil(request):
 
         context = {'user': user,'form': form}
         return render(request, 'sortir/modifierProfil.html', context)
-
-    return render(request, 'sortir/index.html')
+    form = ConnexionForm(request.POST or None)
+    context = {'form': form}
+    return render(request, 'sortir/connexion.html', context)
 
 
 def ajouterparticipant(request):
