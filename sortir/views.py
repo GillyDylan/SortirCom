@@ -46,6 +46,8 @@ def affichersortie(request, idsortie):
 
 
 # A supprimer plus tard
+
+
 def profil(request):
     if 'userId' not in request.session:
         form = ConnexionForm(request.POST or None)
@@ -57,12 +59,11 @@ def profil(request):
 
 # Views lier le model Participant
 
-def deconnexion(request):
-    if request.session.__contains__('userId'):
-        request.session.delete('userId')
-        request.session.delete('isAdmin')
 
-    form = ConnexionForm()
+def deconnexion(request):
+    if 'userId' in request.session:
+        del request.session['userId']
+    form = ConnexionForm(request.POST or None)
     context = {'form': form}
     return render(request, 'sortir/connexion.html', context)
 
@@ -103,7 +104,7 @@ def afficherprofil(request, idOrganisateur):
 
 
 def modifierprofil(request):
-    if request.session.__contains__('userId'):
+    if 'userId' in request.session:
         user = Participant.objects.get(pk=request.session['userId'])
         form = ModParticipantForm(request.POST or None, instance=user)
         if form.is_valid():
