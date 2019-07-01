@@ -16,6 +16,7 @@ function changerPage(objet){
 
 
 function changerPageAjax(id){
+    var anciennePage = $('.active');
     $(".nav-item").removeClass('active');
     $('#'+id).addClass('active');
     $.ajax({
@@ -24,6 +25,9 @@ function changerPageAjax(id){
         method : 'GET',
         success : function(resultText) {
             $('#contenu').html(resultText);
+            if(id === 'Deconnecter'){
+                changerPage($('#'+anciennePage.get(0).id))
+            }
         },
         error : function(jqXHR, exception) {
             alert('Une erreur est survenue');
