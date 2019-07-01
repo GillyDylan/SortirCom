@@ -3,12 +3,12 @@ from django.urls import path
 from sortir import views
 
 urlpatterns = [
-    path('coco', views.workspace),
     path('', views.index),
-    path('Accueil/', views.accueil),
-    path('Profil/', views.profil),
-    path('Deconnecter/', views.deconnecter),
+    path('Accueil/', views.accueil, name='accueil'),
+    path('Profil/', views.modifierprofil, name='profil'),
+    path('Deconnexion/', views.deconnexion, name='deconnexion'),
     path('Connexion/', views.connexion, name='connexion'),
+    path('AfficherProfil/<idOrganisateur>/', views.afficherprofil, name='afficherprofil'),
     path('FormulaireAjouterParticipant/', views.ajouterparticipant, name='ajouterparticipant'),
     path('AjouterParticipant/', views.ajouterparticipant, name='ajouterparticipant'),
 ]

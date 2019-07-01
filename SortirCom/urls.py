@@ -19,12 +19,13 @@ from django.urls import path, include
 from sortir import views
 
 urlpatterns = [
-    path('workspace/', include('sortir.urls')),
     path('', include('sortir.urls')),
     path('Ajax/', include('sortir.urls')),
     path('Accueil', views.index),
     path('Profil', views.index),
+    path('AfficherProfil/<idOrganisateur>', views.index),
+    path('ModifierProfil', views.index),
     path('Connexion', views.index),
-    path('Deconnecter', views.index),
+    path('Deconnexion', views.index),
     path('FormulaireAjouterParticipant', views.index),
 ]

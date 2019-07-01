@@ -1,29 +1,62 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-10 col-md-3 offset-1" id="profil_img">
-            <a href="https://placeholder.com"><img src="https://via.placeholer.com/200"></a>
-        </div>
-        <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-0" id="profil_detail">
-            <h2>Placeholder</h2>
-            <form>
-                <div class="row">
-                    <div class="col-6">
-                        <label>Pseudo :</label>
-                        <label>Prénom :</label>
-                        <label>Nom :</label>
-                        <label>Téléphone :</label>
-                        <label>Email :</label>
-                        <label>Mot de passe  :</label>
-                        <label>Confirmation :</label>
-                        <label>Ville de rattachement : </label>
-                        <label>Ma photo :</label>
-                    </div>
-                    <div class="col-6">
-
-                    </div>
+<div class="container-fluid text-center" >
+    <h2>Ajouter Participant</h2>
+    <br>
+    <div id="modifier_profil" class="row col-sm-10 col-md-6 offset-sm-1 offset-md-3">
+        <form id="ModifierProfil" method="post" class="col-12">
+            {% load static %}
+            {% csrf_token %}
+            <div class="form-group row text-right">
+                {{ form.pseudo.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.pseudo }} {{ form.pseudo.errors }}
                 </div>
-            </form>
-        </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.email.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.email }} {{ form.email.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.nom.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.nom }} {{ form.nom.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.prenom.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.prenom }} {{ form.prenom.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.password.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.password }} {{ form.password.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.confirmPassword.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.confirmPassword }} {{ form.confirmPassword.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.telephone.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.telephone }} {{ form.telephone.errors }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                {{ form.site.label_tag }}
+                <div class="col-sm-12 col-md-7">
+                    {{ form.site }} {{ form.site.errors }}
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary center-block">Modifier</button>
+            <button type="button" class="btn btn-primary center-block">Annuler</button>  <!-- Ajouter le retour a l'accueil -->
+        </form>
     </div>
 </div>
-</div>
+<script src="{% static 'sortir/js/modifierProfil.js '%}"></script>
