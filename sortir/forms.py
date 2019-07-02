@@ -1,6 +1,7 @@
 from django import forms
 from django.core.validators import RegexValidator
 from sortir.models import Sortie, Site, Lieu, Ville, Participant
+from django.utils.translation import gettext_lazy as _
 import datetime
 
 
@@ -54,6 +55,18 @@ class SortieForm(forms.ModelForm):
     class Meta:
         model = Sortie
         fields = ['nom', 'dateHeureDebut', 'dateHeureFin', 'dateLimiteInscription', 'infosSortie', 'lieu', 'nbinscriptionMax', 'organisateur']
+        labels = {
+            'dateHeureDebut': _('Date debut :'),
+            'dateHeureFin': _('Date fin :'),
+            'dateLimiteInscription': _('Date fin inscription :'),
+            'infosSortie': _('Description et infos :'),
+            'nbinscriptionMax': _('Nombre maximum de participant :'),
+        }
+        widgets = {
+            'dateHeureDebut': forms.DateTimeInput(attrs={'placeholder': 'dd/mm/yyyy hh:mm'}),
+            'dateHeureFin': forms.DateTimeInput(attrs={'label': 'Date fin :', 'placeholder': 'dd/mm/yyyy hh:mm'}),
+            'dateLimiteInscription': forms.DateTimeInput(attrs={'label': 'Date fin inscription :', 'placeholder': 'dd/mm/yyyy'})
+        }
 
     def clean(self):
         cleaned_data = super().clean()

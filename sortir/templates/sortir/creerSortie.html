@@ -1,11 +1,11 @@
 <div class="container-fluid text-center" >
     <h2>Créer une sortie</h2>
     <br>
-    <div id="ajouter_participant" class="row col-sm-10 col-md-6 offset-sm-1 offset-md-3">
+    <div id="creer_sortie" class="row col-sm-10 col-md-6 offset-sm-1 offset-md-3">
         <form id="CreerSortie" method="post" class="col-12">
             {% load static %}
             {% csrf_token %}
-            <div>
+            <div class="col-sm-12 col-md-6">
                 <div class="form-group row text-right">
                     {{ form.nom.label_tag }}
                     <div class="col-sm-12 col-md-7">
@@ -15,13 +15,13 @@
                 <div class="form-group row text-right">
                     {{ form.dateHeureDebut.label_tag }}
                     <div class="col-sm-12 col-md-7">
-                        {{ form.dateHeureDebut }} {{ form.email.dateHeureDebut }}
+                        {{ form.dateHeureDebut }}{{ form.heureDebut }} {{ form.email.dateHeureDebut }}
                     </div>
                 </div>
                 <div class="form-group row text-right">
                     {{ form.dateHeureFin.label_tag }}
                     <div class="col-sm-12 col-md-7">
-                        {{ form.dateHeureFin }} {{ form.dateHeureFin.errors }}
+                        {{ form.dateHeureFin }}{{ form.heureFin }} {{ form.dateHeureFin.errors }}
                     </div>
                 </div>
                 <div class="form-group row text-right">
@@ -45,7 +45,7 @@
 
             </div>
 
-            <div>
+            <div class="col-sm-12 col-md-6">
                 <div class="form-group row text-right">
                     Ville organisatrice :
                     <div class="col-sm-12 col-md-7">
@@ -65,25 +65,25 @@
                     </div>
                 </div>
                 <div class="form-group row text-right">
-                    {{ form.lieu.rue.label_tag }}
+                    Rue :
                     <div class="col-sm-12 col-md-7">
                         {{ form.lieu.rue }} {{ form.lieu.rue.errors }}
                     </div>
                 </div>
                 <div class="form-group row text-right">
-                    {{ form.ville.codePostal.label_tag }}
+                    Code postal :
                     <div class="col-sm-12 col-md-7">
                         {{ form.ville.codePostal }} {{ form.ville.codePostal.errors }}
                     </div>
                 </div>
-                                <div class="form-group row text-right">
-                    {{ form.lieu.latitude.label_tag }}
+                <div class="form-group row text-right">
+                    Latitude :
                     <div class="col-sm-12 col-md-7">
                         {{ form.lieu.latitude }} {{ form.lieu.latitude.errors }}
                     </div>
                 </div>
-                                <div class="form-group row text-right">
-                    {{ form.lieu.longitude.label_tag }}
+                <div class="form-group row text-right">
+                    Longitude :
                     <div class="col-sm-12 col-md-7">
                         {{ form.lieu.longitude }} {{ form.lieu.longitude.errors }}
                     </div>
@@ -94,6 +94,7 @@
             <br>
 
             <button type="submit" class="btn btn-primary center-block">Ajouter</button>
+
         </form>
     </div>
 </div>

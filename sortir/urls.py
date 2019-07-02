@@ -11,6 +11,9 @@ urlpatterns = [
     path('Villes/', views.villes, name='villes'),
     path('Participants/', views.participants, name='participants'),
 
+    path('CreerSortie/', views.creersortie, name='creersortie'),
+    path('AfficherSortie_<idSortie>/', views.affichersortie, name='affichersortie'),
+    path('Modifier_sortie<idSortie>/', views.modifiersortie, name='modifiersortie'),
 
     path('Connexion/', views.connexion, name='connexion'),
     path('AfficherProfil_<idOrganisateur>/', views.afficherprofil, name='afficherprofil'),

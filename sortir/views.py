@@ -31,9 +31,12 @@ def creersortie(request):
     sortie.organisateur = Participant.objects.get(pk=request.session['userId'])
     form = SortieForm(request.POST or None, instance=sortie)
 
+    print(form.is_valid(), form.errors, type(form.errors))
+
     if form.is_valid():
+        print('coucou')
         sortie.save()
-        return redirect('/Accueil/')
+        return render(request, 'sortir/accueil.html')
 
     context = {'form': form, 'villeOrga': sortie.organisateur.site.nom}
     return render(request, 'sortir/creerSortie.html', context)

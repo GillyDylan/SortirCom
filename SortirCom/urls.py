@@ -27,6 +27,9 @@ urlpatterns = [
     path('Sites', views.index),
     path('Villes', views.index),
 
+    path('CreerSortie', views.index),
+    path('AfficherSortie_<idSortie>', views.index),
+    path('ModifierSortie_<idSortie>', views.index),
 
     path('AfficherProfil_<idOrganisateur>', views.index),
     path('ModifierProfil', views.index),
