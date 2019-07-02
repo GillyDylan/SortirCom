@@ -10,6 +10,7 @@ urlpatterns = [
     path('Sites/', views.sites, name='sites'),
     path('Villes/', views.villes, name='villes'),
     path('Participants/', views.participants, name='participants'),
+    path('GetSession/', views.getsession, name='session'),
 
     path('CreerSortie/', views.creersortie, name='creersortie'),
     path('AfficherSortie_<idSortie>/', views.affichersortie, name='affichersortie'),

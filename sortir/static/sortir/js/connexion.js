@@ -1,3 +1,4 @@
+//Je sais c'est moche me jugez pas
 $('#Connexion > div > label').addClass('col-sm-12 col-md-5 col-form-label');
 $('#Connexion > div > div > input').addClass('form-control');
 
@@ -13,7 +14,8 @@ frm.submit(function () {
                 xhr.setRequestHeader("HTTP_X_CSRFTOKEN", jQuery("[name=csrfmiddlewaretoken]").val());
             }
         },
-       success : function(resultText) {
+        success : function(resultText) {
+            verifierUtilisateurActuel();
             $('#contenu').html(resultText);
         },
         error: function(data) {

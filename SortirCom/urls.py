@@ -31,7 +31,7 @@ urlpatterns = [
     path('AfficherSortie_<idSortie>', views.index),
     path('ModifierSortie_<idSortie>', views.index),
 
-    path('AfficherProfil_<idOrganisateur>', views.index),
+    path('AfficherProfil', views.index),
     path('ModifierProfil', views.index),
     path('Connexion', views.index),
     path('Deconnexion', views.index),
