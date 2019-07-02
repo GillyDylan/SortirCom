@@ -1,3 +1,4 @@
+//Je sais c'est moche me jugez pas
 $('#Connexion > div > label').addClass('col-sm-12 col-md-5 col-form-label');
 $('#Connexion > div > div > input').addClass('form-control');
 
