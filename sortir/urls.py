@@ -13,8 +13,8 @@ urlpatterns = [
     path('GetSession/', views.getsession, name='session'),
 
     path('CreerSortie/', views.creersortie, name='creersortie'),
-    path('AfficherSortie_<idSortie>/', views.affichersortie, name='affichersortie'),
-    path('Modifier_sortie<idSortie>/', views.modifiersortie, name='modifiersortie'),
+    path('AfficherSortie_<idsortie>/', views.affichersortie, name='affichersortie'),
+    path('ModifierSortie_<idsortie>/', views.modifiersortie, name='modifiersortie'),
 
     path('Connexion/', views.connexion, name='connexion'),
     path('AfficherProfil_<idOrganisateur>/', views.afficherprofil, name='afficherprofil'),

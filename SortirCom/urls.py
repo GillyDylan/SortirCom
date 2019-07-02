@@ -28,8 +28,8 @@ urlpatterns = [
     path('Villes', views.index),
 
     path('CreerSortie', views.index),
-    path('AfficherSortie_<idSortie>', views.index),
-    path('ModifierSortie_<idSortie>', views.index),
+    path('AfficherSortie_<idsortie>', views.index),
+    path('ModifierSortie_<idsortie>', views.index),
 
     path('AfficherProfil', views.index),
     path('ModifierProfil', views.index),
