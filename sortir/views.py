@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
+from sortir.forms import ParticipantForm, ModParticipantForm, ConnexionForm, SortieForm
 from sortir.models import Participant, Sortie, Site
 from django.contrib.auth import hashers
 # Create your views here.
@@ -44,6 +45,14 @@ def affichersortie(request, idsortie):
     context = {'sortie': sortie}
     return render(request, 'sortir/afficherSortie.html', context)
 
+
+def modifiersortie(request, idsortie):
+    sortie = Sortie.objects.get(pk=idsortie)
+    form = SortieForm(request.POST or None, instance=sortie)
+    context = {'form': form}
+    return render(request, 'sortir/modifierSortie.html', context)
+
+
 # Views lier le model Participant
 
 
@@ -63,15 +72,14 @@ def formulaireajouterparticipant(request):
 
 def connexion(request):
     anciennePage = request.headers["Referer"][request.headers["Referer"].rfind('/')+1:]
-
     form = ConnexionForm(request.POST or None)
     context = {'form': form}
-
     if 'userId' not in request.session:
         if form.is_valid():
             user = Participant.objects.filter(pseudo=form.cleaned_data['pseudo'])
             if hashers.check_password(form.cleaned_data['password'], user[0].password):
                 if user.count() == 1:
+                    print('connection')
                     request.session['userId'] = user[0].id
                     request.session['isAdmin'] = user[0].administrateur
                     if not form.cleaned_data.get('remember'):
@@ -108,7 +116,7 @@ def afficherprofil(request, idOrganisateur):
 def modifierprofil(request):
     if 'userId' in request.session:
         user = Participant.objects.get(pk=request.session['userId'])
-        form = ParticipantForm(request.POST or None, instance=user)
+        form = ModParticipantForm(request.POST or None, instance=user)
         if form.is_valid():
             user.password = hashers.make_password(user.password)
             user.save()
