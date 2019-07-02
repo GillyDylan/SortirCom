@@ -11,6 +11,7 @@ class Ville(models.Model):
     def __str__(self):
         return self.nom
 
+
 class Lieu(models.Model):
     nom = models.CharField(unique=True, blank=False, max_length=100)
     rue = models.CharField(unique=True, blank=False, max_length=100)
@@ -21,8 +22,9 @@ class Lieu(models.Model):
     def __str__(self):
         return self.nom
 
+
 class Etat(models.Model):
-    libelle = models.CharField(blank=False, max_length=20)
+    libelle = models.CharField(unique=True, blank=False, max_length=20)
 
 
 class Site(models.Model):
