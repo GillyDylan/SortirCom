@@ -1,112 +1,90 @@
-<div class="container-fluid">
+<div class="container-fluid text-center" >
+    <h2>Afficher une sortie</h2>
+    <br>
+    <br>
     <div class="row">
-        <div class="col-sm-10 col-md-3 offset-1" id="profil_img">
-            <a href="https://placeholder.com"><img src="https://via.placeholer.com/200"></a>
+        <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-1">
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right">Nom de la sortie :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.nom }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right">Date et heure de la sortie :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.dateHeureDebut }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right">Date et heure de la fin :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.dateHeureFin }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right"> Date de fin d'inscription :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.dateLimiteInscription }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right">Nombre de places :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.nbinscriptionMax }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right">Description et infos :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.infosSortie }}</label>
+            </div>
         </div>
-        <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-0" id="sortie_detail">
-            {% csrf_token %}
-            <h2>Afficher une sortie</h2>
-            <div>
-                <div class="form-group row text-right">
-                    Nom de la sortie :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.nom }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Date et heure de la sortie
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.dateHeureDebut }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Date et heure de la fin :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.dateHeureFin }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Date de fin d'inscription :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.dateLimiteInscription }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Nombre de places :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.nbinscriptionMax }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Description et infos :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.infosSortie }}
+        <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-1">
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right">Ville Organisatrice :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.organisateur.site.nom }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right"> Lieu :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.lieu.nom }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right">Rue :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.lieu.rue }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right">Code postal :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.lieu.ville.codePostal }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right">Latitude :</label>
+                <label class="col-6 col-form-label text-left">{{ sortie.lieu.latitude }}</label>
+            </div>
+            <div class="form-group row ">
+                <label class="col-6 col-form-label text-right"> Longitude :</label>
+                <label class="col-6 col-form-label text-left"> {{ sortie.lieu.longitude }}</label>
+            </div>
+        </div>
+        <div class="col-sm-10 col-md-4 offset-sm-1 offset-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Liste des participants :</h3>
+                    <br>
+                    <br>
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table table-bordered table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th scope="col">Pseudo</th>
+                                <th scope="col">Nom</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for part in sortie.participants.all %}
+                                <tr>
+                                    <td>
+                                        {{ part.pseudo}}
+                                    </td>
+                                    <td>
+                                        {{ part.nom}} {{ part.prenom}}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-
-            <div>
-                <div class="form-group row text-right">
-                    Ville Organisatrice :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.organisateur.site.nom }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Lieu :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.lieu.nom }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Rue :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.lieu.rue }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Code postal :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.lieu.ville.codePostal }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Latitude :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.lieu.latitude }}
-                    </div>
-                </div>
-                <div class="form-group row text-right">
-                    Longitude :
-                    <div class="col-sm-12 col-md-7">
-                        {{ sortie.lieu.longitude }}
-                    </div>
-                </div>
-            </div>
-
-            <h3>Liste des participants :</h3>
-            <table>
-                <tr>
-                    <th>
-                        pseudo
-                    </th>
-                    <th>
-                        nom
-                    </th>
-                </tr>
-                {% for part in sortie.participants.all %}
-                    <tr>
-                        <td>
-                            {{ part.pseudo}}
-                        </td>
-                    <td>
-                            {{ part.nom}} {{ part.prenom}}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
         </div>
-
     </div>
-</div>
 </div>

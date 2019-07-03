@@ -11,3 +11,14 @@ overflow: auto;
 .table-wrapper-scroll-y {
 display: block;
 }
+
+
+div[id^="AfficherProfil"] :hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+*[id^="AfficherSortie"] :hover{
+    cursor: pointer;
+    text-decoration: underline;
+}

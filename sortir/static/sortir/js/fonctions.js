@@ -15,19 +15,23 @@ function changerPage(objet){
 
 
 function changerPageAjax(id){
-    var anciennePage = $('.active');
+
+    var anciennePage = $('.active').attr("id");
+    if(anciennePage === undefined){
+        anciennePage = ("Accueil")
+    }
     $(".nav-item").removeClass('active');
     $('#'+id).addClass('active');
     $.ajax({
         url :'/Ajax/'+ id + '/',
         contentType: "application/x-www-form-urlencoded;charset=utf-8",
         method : 'GET',
-        data:'anciennePage=' + anciennePage.get(0).id,
+        data:'anciennePage=' + anciennePage,
         success : function(resultText) {
             verifierUtilisateurActuel();
             $('#contenu').html(resultText);
-            if(id === 'Deconnexion' && anciennePage.get(0).id !== 'Deconnexion'){
-                changerPage($('#'+anciennePage.get(0).id))
+            if(id === 'Deconnexion' && anciennePage !== 'Deconnexion'){
+                changerPage($('#'+anciennePage))
             }
         },
         error : function(jqXHR, exception) {
@@ -59,6 +63,10 @@ function verifierUtilisateurActuel(){
                     $('#Villes').show();
                     $('#Sites').show();
                     $('#Participants').show();
+                }else{
+                    $('#Villes').hide();
+                    $('#Sites').hide();
+                    $('#Participants').hide();
                 }
             }else {
                 $('.nav-item').hide();
@@ -81,6 +89,7 @@ window.addEventListener('load', function() {
         var id = adresseActuelle.substring(index + 1);
         changerPageAjax(id);
     }else{
+        majHistorique(adresseActuelle, "Accueil");
         changerPageAjax("Accueil");
     }
 }, false);

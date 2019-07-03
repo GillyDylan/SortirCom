@@ -23,9 +23,9 @@ $.ajax({
 });
 
 function afficherSorties(){
-
     $('#sorties').html('');
     for(let sortie of sorties) {
+
         var nbParticipants = 0;
         var inscrit = '';
 
@@ -42,14 +42,37 @@ function afficherSorties(){
                                                                    (inscrit === 'X' && $("#inscr").is(':checked')) ||
                                                                    (inscrit === '' && $("#notinscr").is(':checked'))))
         {
-            $('#sorties').append($('<tr>', {id: 'sortie' + sortie.id}));
-            $('#sortie' + sortie.id).append($('<td>' + sortie.nom + '</td>'))
+            $('#sorties').append($('<tr id="Sortie_'+ sortie.id +'"></tr>'));
+            $('#Sortie_' + sortie.id).append($('<td>' + sortie.nom + '</td>'))
                 .append($('<td>' + sortie.dateHeureDebut + '</td>'))
                 .append($('<td>' + sortie.dateLimiteInscription + '</td>'))
                 .append($('<td>' + nbParticipants + '/' + sortie.nbinscriptionMax + '</td>'))
                 .append($('<td>' + sortie.etat__libelle + '</td>'))
-                .append($('<td>' + inscrit + '</td>'))
-                .append($('<td>' + sortie.organisateur__nom + '</td>'));
+                .append($('<td>' + inscrit + '</td>'));
+            if(userId == sortie.organisateur_id || inscrit === ''){
+                $('#Sortie_' + sortie.id).append($('<td>' + sortie.organisateur__prenom + ' ' + sortie.organisateur__nom.substring(0,1) +'.</td>'));
+            }else{
+                $('#Sortie_' + sortie.id).append($('<td><div id="AfficherProfil_'+ sortie.organisateur_id +'" onclick="changerPage($(this))"><label>' + sortie.organisateur__prenom + ' ' + sortie.organisateur__nom.substring(0,1) +'.</label></div></td>'));
+            }
+            if(userId == sortie.organisateur_id){
+                $('#Sortie_' + sortie.id).append('<td id="tdSortie_' + sortie.id + '">' +
+                    '<div id="ModifierSortie_' + sortie.id + '" onclick="changerPage($(this))"><label>Modifier</label></div></td>');
+
+            }else {
+                $('#Sortie_' + sortie.id).append('<td id="tdSortie_' + sortie.id + '">' +
+                    '<div id="AfficherSortie_' + sortie.id + '" onclick="changerPage($(this))"><label>Afficher</label></div></td>');
+            }
+            if(inscrit === 'X'){
+                $('#tdSortie_' + sortie.id).append(
+                '<div id="SeDesister_'+ sortie.id +'" onclick="changerPage($(this))">' +
+                '<label>Se désister</label>' +
+                '</div>')
+            }else{
+                 $('#tdSortie_' + sortie.id).append(
+                '<div id="Sinscrire_'+ sortie.id +'" onclick="changerPage($(this))">' +
+                '<label>S\'inscrire</label>' +
+                '</div>')
+            }
         }
     }
 }

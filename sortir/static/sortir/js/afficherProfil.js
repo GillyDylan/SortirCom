@@ -1,0 +1,1 @@
+$('#profil_detail > div > div > label').addClass('col-sm-12 col-md-5 col-form-label');
