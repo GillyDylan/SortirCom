@@ -38,9 +38,6 @@ function afficherSorties(){
 
         }
 
-
-
-
         $('#sorties').append($('<tr>', {id:'sortie'+sortie.id}));
         $('#sortie'+sortie.id).append($('<td>'+sortie.nom+'</td>'))
             .append($('<td>'+sortie.dateHeureDebut+'</td>'))

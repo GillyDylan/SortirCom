@@ -13,11 +13,12 @@ urlpatterns = [
     path('GetSession/', views.getsession, name='session'),
     path('GetSorties/', views.getsorties, name='sorties'),
 
-    path('CreerSortie/', views.creersortie, name='creersortie'),
     path('AfficherSortie_<int:idsortie>/', views.affichersortie, name='affichersortie'),
     path('ModifierSortie_<int:idsortie>/', views.modifiersortie, name='modifiersortie'),
 
     path('Connexion/', views.connexion, name='connexion'),
     path('AfficherProfil_<int:idOrganisateur>/', views.afficherprofil, name='afficherprofil'),
     path('AjouterParticipant/', views.ajouterparticipant, name='ajouterparticipant'),
+    path('CreerSortie/', views.creersortie, name='creersortie'),
+
 ]
