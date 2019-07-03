@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
-import django_tables2 as tables
 # Create your models here.
 
 
@@ -58,8 +57,3 @@ class Sortie(models.Model):
     etat = models.ForeignKey(Etat, blank=False, on_delete=models.PROTECT)
     organisateur = models.ForeignKey(Participant, on_delete=models.CASCADE)
     participants = models.ManyToManyField(Participant, related_name='sorties', blank=True)
-
-
-class SimpleTable(tables.Table):
-    class Meta:
-        model = Sortie
