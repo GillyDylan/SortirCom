@@ -237,6 +237,7 @@ def getsorties(request):
                                                   'etat__libelle',
                                                   'lieu_id',
                                                   'lieu__nom',
+                                                  'organisateur__site_id',
                                                   'organisateur_id',
                                                   'organisateur__nom')),
                               cls=DjangoJSONEncoder),

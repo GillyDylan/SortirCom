@@ -10,31 +10,53 @@
                 </div>
                 <div class="col-md-4">
                     Date du jour :
+                    <br>
                     Participant : {{ user.prenom }} {{ user.nom|slice:1 }}
                 </div>
             </div>
+            <br>
+            <h3>Filtrer les sorties :</h3>
             <div class="row">
-                <div class="col-md-6">
-                    <h3>Filtrer les sorties</h3>
-
+                <div class="col-md-4 col-sm-12 offset-md-1 offset-sm-0">
                     <div class="form-group row text-right">
-                        Site :
+                        <label for="sites" class="col-sm-12 col-md-5 col-form-label">Site :</label>
                         <div class="col-sm-12 col-md-7">
-                            <select id="sites">
+                            <select onchange="afficherSorties()" id="sites" class="form-control">
                                 {% for site in sites %}
                                     <option {% if user.site.id == site.id %} selected {% endif %} value="{{ site.id }}">{{ site.nom }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
-
-
-
-
+                    <div class="form-group row text-right">
+                        <label  for="recherche" class="col-sm-12 col-md-5 col-form-label">Rechercher dans le nom :</label>
+                        <div class="col-sm-12 col-md-7">
+                            <input onkeyup="afficherSorties()" id="recherche" class="form-control">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4 col-sm-12 offset-md-1 offset-sm-0">
+                    <div class=" row text-left">
+                        <input onchange="afficherSorties()" checked type="checkbox" id="orga" class="form-check">
+                        <label for="orga" class="col-10 col-form-label">Sorties que j'organise</label>
+                    </div>
+                    <div class="row text-left">
+                        <input onchange="afficherSorties()" checked type="checkbox" id="inscr" class="form-check">
+                        <label for="inscr" class="col-10 col-form-label">Sorties auxquelles je suis inscrit</label>
+                    </div>
+                    <div class=" row text-left">
+                        <input onchange="afficherSorties()" checked type="checkbox" id="notinscr" class="form-check">
+                        <label for="notinscr" class="col-10 col-form-label">Sorties auxquelles je ne suis pas inscrit</label>
+                    </div>
+                    <div class=" row text-left">
+                        <input type="checkbox" id="passees" class="form-check">
+                        <label for="passees" class="col-10 col-form-label">Sorties passées</label>
+                    </div>
                 </div>
             </div>
+            <br>
+            <br>
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-wrapper-scroll-y my-custom-scrollbar">
