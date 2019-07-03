@@ -4,7 +4,7 @@ $('#CreerSortie > div > div > select').addClass('form-control');
 
 
 
-var frm = $('#CreerSortie');
+var frm = $('#AjouterSortie');
 frm.submit(function () {
     alert('2');
     $.ajax({
