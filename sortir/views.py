@@ -37,6 +37,22 @@ def accueil(request):
 # Views pour le models Lieu
 # Views pour le models Site
 # Views pour le models Sortie
+def ajouterparticipant(request):
+    # if request.session.__contains__('userId'):
+    #    user = Participant.objects.get(pk=request.session['userId'])
+    #    if user.administrateur:
+    user = Participant()
+    form = ParticipantForm(data=(request.POST or None), instance=user)
+
+    print(form.is_valid(), form.errors, type(form.errors))
+
+    if form.is_valid():
+        user.password = hashers.make_password(user.password)
+        user.save()
+        form = ParticipantForm()
+
+    context = {'form': form}
+    return render(request, 'sortir/ajouterParticipant.html', context)
 
 
 def creersortie(request):
@@ -47,11 +63,6 @@ def creersortie(request):
     print(form.is_valid(), form.errors, type(form.errors))
 
     if form.is_valid():
-        sortie.organisateur = organisateur
-        if 'Enregistrer' in request.POST:
-            sortie.etat = Etat.objects.get(libelle='Créée')
-        elif 'Publier' in request.POST:
-            sortie.etat = Etat.objects.get(libelle='Ouverte')
         sortie.save()
         return render(request, 'sortir/accueil.html')
 
@@ -157,24 +168,6 @@ def modifierprofil(request):
         return render(request, 'sortir/modifierProfil.html', context)
 
     return connexion(request)
-
-
-def ajouterparticipant(request):
-    # if request.session.__contains__('userId'):
-    #    user = Participant.objects.get(pk=request.session['userId'])
-    #    if user.administrateur:
-    user = Participant()
-    form = ParticipantForm(data=(request.POST or None), instance=user)
-
-    print(form.is_valid(), form.errors, type(form.errors))
-
-    if form.is_valid():
-        user.password = hashers.make_password(user.password)
-        user.save()
-        form = ParticipantForm()
-
-    context = {'form': form}
-    return render(request, 'sortir/ajouterParticipant.html', context)
 
 
 def sites(request):

@@ -5,9 +5,8 @@ $('#CreerSortie > div > div > select').addClass('form-control');
 
 
 var frm = $('#CreerSortie');
-
-
 frm.submit(function () {
+    alert('2');
     $.ajax({
         method: "POST",
         url:'/Ajax/CreerSortie/',
@@ -18,9 +17,10 @@ frm.submit(function () {
             }
         },
         success: function (data) {
-
+             alert('3');
         },
         error: function(data) {
+             alert('4');
         }
     });
     return false;
