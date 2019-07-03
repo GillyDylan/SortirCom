@@ -47,6 +47,7 @@ class Participant(models.Model):
     administrateur = models.BooleanField(default=False)
     actif = models.BooleanField(default=True)
     site = models.ForeignKey(Site, blank=False, on_delete=models.PROTECT)
+    profil_pic = models.ImageField(upload_to='ProfilPics', blank=True)
 
 
 class Sortie(models.Model):

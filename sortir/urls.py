@@ -22,4 +22,5 @@ urlpatterns = [
     path('AjouterParticipant/', views.ajouterparticipant, name='ajouterparticipant'),
     path('CreerSortie/', views.creersortie, name='creersortie'),
 
+    path('ModifierProfil/', views.modifierprofil, name='modifierprofil')
 ]
