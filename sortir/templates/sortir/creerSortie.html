@@ -57,8 +57,10 @@
             <div id="lieux">
 
             </div>
+            {{ form.typeRetour }}
             <br>
-            <button type="submit" class="btn btn-primary center-block">Enregistrer</button>
+            <button type="submit" class="btn btn-primary center-block" onclick="$(#typeRetour).val('Enregistrer')">Enregistrer</button>
+            <button type="submit" class="btn btn-primary center-block" onclick="$(#typeRetour).val('Publier')">Publier</button>
         </form>
     </div>
 </div>

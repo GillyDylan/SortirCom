@@ -13,7 +13,7 @@ class SuperParticipantForm(forms.ModelForm):
 
     class Meta:
         model = Participant
-        fields = ['pseudo', 'nom', 'prenom', 'email', 'telephone', 'site', 'administrateur', 'actif', 'password']
+        fields = ['pseudo', 'nom', 'prenom', 'email', 'telephone', 'site', 'administrateur', 'actif', 'password', 'image']
         widgets = {
             'password': forms.PasswordInput
         }
@@ -39,6 +39,10 @@ class ModParticipantForm(SuperParticipantForm):
 
     class Meta(SuperParticipantForm.Meta):
         fields = SuperParticipantForm.Meta.fields + ['confirmPassword']
+        labels = {
+            'image': 'Image de profil'
+        }
+
 
     def __init__(self, *args, **kwargs):
         super(ModParticipantForm, self).__init__(*args, **kwargs)
@@ -55,6 +59,7 @@ class ModParticipantForm(SuperParticipantForm):
 
 class SortieForm(forms.ModelForm):
     ville = forms.ModelChoiceField(queryset=Ville.objects.all(), required=False)
+    typeRetour = forms.Field(required=False, initial='Enregistrer', widget=forms.HiddenInput(attrs={'id': 'typeRetour'}))
 
     class Meta:
         model = Sortie
@@ -73,28 +78,21 @@ class SortieForm(forms.ModelForm):
         }
 
     def clean(self):
-        print("Je suis dans le clean")
         cleaned_data = super().clean()
-        print("Supeer clean passé")
         datedebut = self.cleaned_data.get('dateHeureDebut')
         datelimite = self.cleaned_data.get('dateLimiteInscription')
         datejour = datetime.now()
         datefin = self.cleaned_data.get('dateHeureFin')
-        print("J'ai réussi a recuperer les données")
         if datelimite <= datejour.date():
             raise forms.ValidationError("Attention : La date limite doit etre postérieur à aujourd'hui")
-        print("Test 1 passé")
         if datedebut.date() < datelimite:
             raise forms.ValidationError("Attention : La date de début "
                                         "doit etre postérieur à la date de fin d'inscription")
-        print("Test 2 passé")
         if datedebut.date() < datejour.date():
             raise forms.ValidationError("Attention : La date de début doit etre postérieur à aujourd'hui")
-        print("Test 3 passé")
         if datefin <= datedebut:
             raise forms.ValidationError("Attention : la date et l'heure de fin "
                                         "doivent être postérieur à la date de début")
-        print("Test 4 passé")
         return cleaned_data
 
 

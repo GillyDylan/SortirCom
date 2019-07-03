@@ -4,14 +4,14 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
-from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
 from sortir.forms import ParticipantForm, ModParticipantForm, ConnexionForm, SortieForm, AnnulerSortieForm
 from sortir.models import Participant, Sortie, Site, Etat, Lieu
 from django.contrib.auth import hashers
 from django.forms.models import model_to_dict
-# Create your views here.
+from datetime import date, timedelta
+import calendar
+from datetime import datetime
 
 
 # Views pour charger la racine du site
@@ -28,10 +28,24 @@ def accueil(request):
     else:
         sites = []
         for _site in Site.objects.all():
-           sites.append(_site)
+            sites.append(_site)
         user = Participant.objects.get(pk=request.session['userId'])
         context = {'sites': sites, 'user': user}
         return render(request, 'sortir/accueil.html', context)
+
+
+def inscription(request, idsortie):
+    if 'userId' not in request.session:
+        sortie = Sortie.objects.get(pk=idsortie)
+        user = Participant.objects.get(pk=request.session['userId'])
+
+        if sortie.participants.get(pk=user.id):
+            sortie.participants.remove(user)
+            sortie.save()
+        else:
+            if sortie.dateLimiteInscription <= datetime.now().date():
+                sortie.participants.add(user)
+                sortie.save()
 
 
 # Views pour le models Ville
@@ -57,44 +71,54 @@ def ajouterparticipant(request):
 
 
 def creersortie(request):
-    sortie = Sortie()
-    organisateur = Participant.objects.get(pk=request.session['userId'])
-    form = SortieForm(request.POST or None, instance=sortie)
+    if 'userId' in request.session:
+        sortie = Sortie()
+        organisateur = Participant.objects.get(pk=request.session['userId'])
+        sortie.organisateur = organisateur
+        form = SortieForm(request.POST or None, instance=sortie)
 
-    print(form.is_valid(), form.errors, type(form.errors))
+        print(form.is_valid(), form.errors, type(form.errors))
 
-    if form.is_valid():
-        sortie.save()
-        return render(request, 'sortir/accueil.html')
+        if form.is_valid():
+            if form.cleaned_data["typeRetour"] == 'Enregistrer':
+                sortie.etat = Etat.objects.get(pk=1)
+            elif form.cleaned_data["typeRetour"] == 'Publier':
+                sortie.etat = Etat.objects.get(pk=2)
+            sortie.save()
+            return accueil(request)
 
-    context = {'form': form, 'villeOrga': organisateur.site.nom}
-    return render(request, 'sortir/creerSortie.html', context)
+        context = {'form': form, 'villeOrga': organisateur.site.nom}
+        return render(request, 'sortir/creerSortie.html', context)
+    return connexion(request)
 
 
 def affichersortie(request, idsortie):
-    sortie = Sortie.objects.get(pk=idsortie)
+    if 'userId' in request.session:
+        sortie = Sortie.objects.get(pk=idsortie)
 
-    context = {'sortie': sortie}
-    return render(request, 'sortir/afficherSortie.html', context)
+        context = {'sortie': sortie}
+        return render(request, 'sortir/afficherSortie.html', context)
+    return connexion(request)
 
 
 def modifiersortie(request, idsortie):
-    sortie = Sortie.objects.get(pk=idsortie)
-    form = SortieForm(request.POST or None, instance=sortie)
+    if 'userId' in request.session:
+        sortie = Sortie.objects.get(pk=idsortie)
+        form = SortieForm(request.POST or None, instance=sortie)
 
-    if form.is_valid():
-        if 'Enregistrer' in request.POST:
-            sortie.etat = Etat.objects.get(libelle='Créée')
-            sortie.save()
-        elif 'Publier' in request.POST:
-            sortie.etat = Etat.objects.get(libelle='Ouverte')
-            sortie.save()
-        elif 'Supprimer' in request.POST:
-            sortie.etat = Etat.objects.get(libelle='Ouverte')
-            sortie.delete()
+        if form.is_valid():
+            if form.cleaned_data["typeRetour"] == 'Enregistrer':
+                sortie.etat = Etat.objects.get(pk=1)
+                sortie.save()
+            elif form.cleaned_data["typeRetour"] == 'Publier':
+                sortie.etat = Etat.objects.get(pk=2)
+                sortie.save()
+            elif form.cleaned_data["typeRetour"] == 'Supprimer':
+                sortie.delete()
 
-    context = {'form': form}
-    return render(request, 'sortir/modifierSortie.html', context)
+        context = {'form': form}
+        return render(request, 'sortir/modifierSortie.html', context)
+    return connexion(request)
 
 
 def annulersortie(request, idsortie):
@@ -162,13 +186,13 @@ def connexion(request):
 
 def afficherprofil(request, idOrganisateur):
     if request.session.__contains__('userId'):
-    #    sortie = Sortie.objects.get(pk=idSortie)
-    #    if sortie.get(organisateur=idOrganisateur) is not None &
-    #            sortie.participants.get(id=request.session['userId'])) is not None:
-            participant = Participant.objects.get(pk=idOrganisateur)
-            if participant != None:
-                context = {'user': participant}
-                return render(request, 'sortir/afficherProfil.html', context)
+        #    sortie = Sortie.objects.get(pk=idSortie)
+        #    if sortie.get(organisateur=idOrganisateur) is not None &
+        #            sortie.participants.get(id=request.session['userId'])) is not None:
+        participant = Participant.objects.get(pk=idOrganisateur)
+        if participant != None:
+            context = {'user': participant}
+            return render(request, 'sortir/afficherProfil.html', context)
 
     return connexion(request)
 
@@ -177,6 +201,9 @@ def modifierprofil(request):
     if 'userId' in request.session:
         user = Participant.objects.get(pk=request.session['userId'])
         form = ModParticipantForm(request.POST or None, instance=user)
+
+        print(form.is_valid(), form.errors, type(form.errors))
+
         if form.is_valid():
             user.password = hashers.make_password(user.password)
             user.save()
@@ -242,7 +269,8 @@ def getsession(request):
 
 
 def getsorties(request):
-    sorties = Sortie.objects.all()
+    dateMin = date.today() - timedelta(days=calendar.monthrange(date.today().year, date.today().month)[1])
+    sorties = Sortie.objects.filter(dateHeureFin__gte=dateMin)
     data = {
         'sorties': json.dumps(list(sorties.values('id',
                                                   'nom',

@@ -79,11 +79,12 @@
                 </div>
             </div>
 
+            {{ form.typeRetour }}
             <br>
 
-            <button type="submit" class="submitor btn btn-primary center-block" name="Enregistrer" value="Enregistrer">Enregistrer</button>
-            <button type="submit" class="submitor btn btn-primary center-block" name="Publier" value="Publier">Publier</button>
-            <button type="submit" class="submitor btn btn-primary center-block" name="Supprimer" value="Supprimer">Supprimer</button>
+            <button type="submit" class="submitor btn btn-primary center-block" onclick="$(#typeRetour).val('Enregistrer')">Enregistrer</button>
+            <button type="submit" class="submitor btn btn-primary center-block" onclick="$(#typeRetour).val('Publier')">Publier</button>
+            <button type="submit" class="submitor btn btn-primary center-block" onclick="$(#typeRetour).val('Supprimer')">Supprimer</button>
             <button type="button" class="submitor btn btn-primary center-block" name="Annuler" value="Annuler">Annuler</button>
 
         </form>
