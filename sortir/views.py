@@ -1,3 +1,7 @@
+import json
+
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -6,6 +10,7 @@ from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
 from sortir.forms import ParticipantForm, ModParticipantForm, ConnexionForm, SortieForm
 from sortir.models import Participant, Sortie, Site, Etat
 from django.contrib.auth import hashers
+from django.forms.models import model_to_dict
 # Create your views here.
 
 
@@ -21,8 +26,12 @@ def accueil(request):
         context = {'form': form}
         return render(request, 'sortir/connexion.html', context)
     else:
-        return render(request, 'sortir/accueil.html')
-
+        sites = []
+        for _site in Site.objects.all():
+           sites.append(_site)
+        user = Participant.objects.get(pk=request.session['userId'])
+        context = {'sites': sites, 'user': user}
+        return render(request, 'sortir/accueil.html', context)
 
 # Views pour le models Ville
 # Views pour le models Lieu
@@ -220,3 +229,33 @@ def getsession(request):
             'isAdmin': False
         }
     return JsonResponse(data)
+
+
+def getsorties(request):
+    sorties = Sortie.objects.all()
+    data = {
+        'sorties': json.dumps(list(sorties.values('id',
+                                                  'nom',
+                                                  'dateHeureDebut',
+                                                  'dateHeureFin',
+                                                  'dateLimiteInscription',
+                                                  'nbinscriptionMax',
+                                                  'etat_id',
+                                                  'etat__libelle',
+                                                  'lieu_id',
+                                                  'lieu__nom',
+                                                  'organisateur_id',
+                                                  'organisateur__nom')),
+                              cls=DjangoJSONEncoder),
+        'participants': json.dumps(list(sorties.values('id',
+                                                       'participants__site_id',
+                                                       'participants__nom',
+                                                       'participants__prenom')),
+                                   cls=DjangoJSONEncoder),
+        'userId': request.session['userId']
+    }
+    return JsonResponse(data)
+
+
+
+
