@@ -22,6 +22,9 @@ class Lieu(models.Model):
     def __str__(self):
         return self.nom
 
+    def toString(self):
+        return self.nom + " " + self.rue + " " + self.ville.nom
+
 
 class Etat(models.Model):
     libelle = models.CharField(unique=True, blank=False, max_length=20)
@@ -57,3 +60,4 @@ class Sortie(models.Model):
     etat = models.ForeignKey(Etat, blank=False, on_delete=models.PROTECT)
     organisateur = models.ForeignKey(Participant, on_delete=models.CASCADE)
     participants = models.ManyToManyField(Participant, related_name='sorties', blank=True)
+    motif_annulation = models.CharField(max_length=250, blank=True, null=True)

@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('AfficherSortie_<int:idsortie>/', views.affichersortie, name='affichersortie'),
     path('ModifierSortie_<int:idsortie>/', views.modifiersortie, name='modifiersortie'),
+    path('AnnulerSortie_<int:idsortie>/', views.annulersortie, name='annulersortie'),
 
     path('Connexion/', views.connexion, name='connexion'),
     path('AfficherProfil_<int:idOrganisateur>/', views.afficherprofil, name='afficherprofil'),

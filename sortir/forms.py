@@ -98,6 +98,18 @@ class SortieForm(forms.ModelForm):
         return cleaned_data
 
 
+class AnnulerSortieForm(forms.ModelForm):
+    class Meta:
+        model = Sortie
+        fields = ['motif_annulation']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if len(self.cleaned_data['motif_annulation'].strip()) == 0:
+            raise forms.ValidationError("Le motif ne doit pas être vide")
+        return cleaned_data
+
+
 class SiteForm(forms.ModelForm):
 
     class Meta:

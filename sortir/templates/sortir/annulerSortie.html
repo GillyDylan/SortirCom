@@ -1,0 +1,44 @@
+<div class="container-fluid text-center" >
+    <h2>Créer une sortie</h2>
+    <br>
+    <div id="ajouter_sortie" class="row col-sm-10 col-md-6 offset-sm-1 offset-md-3">
+        <form id="AnnulerSortie" method="post" class="col-12">
+            {% load static %}
+            {% csrf_token %}
+            <div class="form-group row text-right">
+                <label>Nom de la sortie :</label>
+                <div class="col-sm-12 col-md-7">
+                    {{ sortie.nom }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                <label>Date de la sortie :</label>
+                <div class="col-sm-12 col-md-7">
+                    {{ sortie.dateHeureDebut }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                <label>Ville organisatrice :</label>
+                <div class="col-sm-12 col-md-7">
+                    {{ sortie.organisateur.site.nom }}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                <label>Lieu :</label>
+                <div class="col-sm-12 col-md-7">
+                    {{ sortie.lieu.toString}}
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                <label>Motif :</label>
+                <div class="col-sm-12 col-md-7">
+                    {{ form.motif_annulation }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary center-block">Enregistrer</button>
+            <button type="button" class="btn btn-primary center-block">Annuler</button>
+        </form>
+    </div>
+</div>
+<script src="{% static 'sortir/js/annulerSortie.js'%}"></script>

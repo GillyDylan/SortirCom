@@ -30,6 +30,7 @@ urlpatterns = [
     path('CreerSortie', views.index),
     path('AfficherSortie_<int:idsortie>', views.index),
     path('ModifierSortie_<int:idsortie>', views.index),
+    path('AnnulerSortie_<int:idsortie>', views.index),
 
     path('AfficherProfil_<int:idOrganisateur>', views.index),
     path('ModifierProfil', views.index),

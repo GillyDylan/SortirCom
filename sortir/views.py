@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
-from sortir.forms import ParticipantForm, ModParticipantForm, ConnexionForm, SortieForm
+from sortir.forms import ParticipantForm, ModParticipantForm, ConnexionForm, SortieForm, AnnulerSortieForm
 from sortir.models import Participant, Sortie, Site, Etat
 from django.contrib.auth import hashers
 from django.forms.models import model_to_dict
@@ -32,6 +32,7 @@ def accueil(request):
         user = Participant.objects.get(pk=request.session['userId'])
         context = {'sites': sites, 'user': user}
         return render(request, 'sortir/accueil.html', context)
+
 
 # Views pour le models Ville
 # Views pour le models Lieu
@@ -96,6 +97,21 @@ def modifiersortie(request, idsortie):
     return render(request, 'sortir/modifierSortie.html', context)
 
 
+def annulersortie(request, idsortie):
+    if 'userId' in request.session:
+        sortie = Sortie.objects.get(pk=idsortie)
+        if sortie.organisateur.id == request.session['userId']:
+            form = AnnulerSortieForm(request.POST or None, instance=sortie)
+
+            if form.is_valid():
+                sortie.etat = Etat.objects.get(libelle='Annuler')
+                sortie.save()
+                return accueil(request)
+
+            context = {'form': form, 'sortie': sortie}
+            return render(request, 'sortir/annulerSortie.html', context)
+
+    return connexion(request)
 # Views lier le model Participant
 
 
