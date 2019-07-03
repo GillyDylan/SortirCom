@@ -13,7 +13,7 @@ class SuperParticipantForm(forms.ModelForm):
 
     class Meta:
         model = Participant
-        fields = ['pseudo', 'nom', 'prenom', 'email', 'telephone', 'site', 'administrateur', 'actif', 'password', 'profil_pic']
+        fields = ['pseudo', 'nom', 'prenom', 'email', 'telephone', 'site', 'administrateur', 'actif', 'password', 'image']
         widgets = {
             'password': forms.PasswordInput
         }
@@ -40,8 +40,9 @@ class ModParticipantForm(SuperParticipantForm):
     class Meta(SuperParticipantForm.Meta):
         fields = SuperParticipantForm.Meta.fields + ['confirmPassword']
         labels = {
-            'profil_pic': 'Image de profil'
+            'image': 'Image de profil'
         }
+
 
     def __init__(self, *args, **kwargs):
         super(ModParticipantForm, self).__init__(*args, **kwargs)

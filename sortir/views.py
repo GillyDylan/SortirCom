@@ -11,6 +11,7 @@ from django.contrib.auth import hashers
 from django.forms.models import model_to_dict
 from datetime import date, timedelta
 import calendar
+from datetime import datetime
 
 
 # Views pour charger la racine du site
@@ -31,6 +32,20 @@ def accueil(request):
         user = Participant.objects.get(pk=request.session['userId'])
         context = {'sites': sites, 'user': user}
         return render(request, 'sortir/accueil.html', context)
+
+
+def inscription(request, idsortie):
+    if 'userId' not in request.session:
+        sortie = Sortie.objects.get(pk=idsortie)
+        user = Participant.objects.get(pk=request.session['userId'])
+
+        if sortie.participants.get(pk=user.id):
+            sortie.participants.remove(user)
+            sortie.save()
+        else:
+            if sortie.dateLimiteInscription <= datetime.now().date():
+                sortie.participants.add(user)
+                sortie.save()
 
 
 # Views pour le models Ville
@@ -185,6 +200,9 @@ def modifierprofil(request):
     if 'userId' in request.session:
         user = Participant.objects.get(pk=request.session['userId'])
         form = ModParticipantForm(request.POST or None, instance=user)
+
+        print(form.is_valid(), form.errors, type(form.errors))
+
         if form.is_valid():
             user.password = hashers.make_password(user.password)
             user.save()

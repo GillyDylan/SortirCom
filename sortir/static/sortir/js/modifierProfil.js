@@ -9,6 +9,7 @@ frm.submit(function () {
     $.ajax({
         method: "POST",
         url:'/Ajax/ModifierProfil/',
+        enctype: 'multipart/form-data',
         data: frm.serialize(),
         beforeSend: function(xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
