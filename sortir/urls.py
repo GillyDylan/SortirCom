@@ -11,6 +11,7 @@ urlpatterns = [
     path('Villes/', views.villes, name='villes'),
     path('Participants/', views.participants, name='participants'),
     path('GetSession/', views.getsession, name='session'),
+    path('GetSorties/', views.getsorties, name='sorties'),
 
 
     path('Connexion/', views.connexion, name='connexion'),
