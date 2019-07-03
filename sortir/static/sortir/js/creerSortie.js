@@ -5,6 +5,8 @@ $('#CreerSortie > div > div > select').addClass('form-control');
 
 
 var frm = $('#CreerSortie');
+
+
 frm.submit(function () {
     $.ajax({
         method: "POST",
@@ -23,3 +25,21 @@ frm.submit(function () {
     });
     return false;
 });
+
+// $(document).on('submit', '#new_user_form', function(e) {
+//     e.preventDefault()
+//
+//     $.ajax({
+//         type: 'POST',
+//         url: '/user/create',
+//         data: {
+//             name: $('#name').val(),
+//             description: $('#description').val(),
+//             price: $('#price').val(),
+//         },
+//         success: function(data) {
+//             console.log('success')
+//             console.log(data)
+//         }
+//     })
+// })

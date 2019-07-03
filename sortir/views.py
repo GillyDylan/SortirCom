@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
 from sortir.forms import ParticipantForm, ModParticipantForm, ConnexionForm, SortieForm
 from sortir.models import Participant, Sortie, Site, Etat
@@ -27,6 +29,7 @@ def accueil(request):
 # Views pour le models Site
 # Views pour le models Sortie
 
+
 def creersortie(request):
     sortie = Sortie()
     organisateur = Participant.objects.get(pk=request.session['userId'])
@@ -49,6 +52,7 @@ def creersortie(request):
 
 def affichersortie(request, idsortie):
     sortie = Sortie.objects.get(pk=idsortie)
+
     context = {'sortie': sortie}
     return render(request, 'sortir/afficherSortie.html', context)
 
@@ -56,6 +60,18 @@ def affichersortie(request, idsortie):
 def modifiersortie(request, idsortie):
     sortie = Sortie.objects.get(pk=idsortie)
     form = SortieForm(request.POST or None, instance=sortie)
+
+    if form.is_valid():
+        if 'Enregistrer' in request.POST:
+            sortie.etat = Etat.objects.get(libelle='Créée')
+            sortie.save()
+        elif 'Publier' in request.POST:
+            sortie.etat = Etat.objects.get(libelle='Ouverte')
+            sortie.save()
+        elif 'Supprimer' in request.POST:
+            sortie.etat = Etat.objects.get(libelle='Ouverte')
+            sortie.delete()
+
     context = {'form': form}
     return render(request, 'sortir/modifierSortie.html', context)
 
