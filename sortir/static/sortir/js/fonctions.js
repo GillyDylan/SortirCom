@@ -26,7 +26,7 @@ function changerPageAjax(id){
         success : function(resultText) {
             verifierUtilisateurActuel();
             $('#contenu').html(resultText);
-            if(id === 'Deconnexion'){
+            if(id === 'Deconnexion' && anciennePage.get(0).id !== 'Deconnexion'){
                 changerPage($('#'+anciennePage.get(0).id))
             }
         },

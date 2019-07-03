@@ -23,6 +23,7 @@ $.ajax({
 });
 
 function afficherSorties(){
+
     $('#sorties').html('');
     for(let sortie of sorties) {
         var nbParticipants = 0;
@@ -36,8 +37,8 @@ function afficherSorties(){
                 nbParticipants++;
             }
         }
-        if ($('#recherche').val() === '' || sortie.nom.toLowerCase().indexOf($('#recherche').val().toLowerCase()) >= 0 &&
-            sortie.organisateur__site_id == $("#sites").val() && ((sortie.organisateur_id === userId && $("#orga").is(':checked')) ||
+        if (($('#recherche').val() === '' || sortie.nom.toLowerCase().indexOf($('#recherche').val().toLowerCase()) >= 0) &&
+            (sortie.organisateur__site_id == $("#sites").val()) && ((sortie.organisateur_id === userId && $("#orga").is(':checked')) ||
                                                                    (inscrit === 'X' && $("#inscr").is(':checked')) ||
                                                                    (inscrit === '' && $("#notinscr").is(':checked'))))
         {

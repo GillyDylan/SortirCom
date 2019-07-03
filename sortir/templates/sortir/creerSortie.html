@@ -50,39 +50,12 @@
             </div>
             <div class="form-group row text-right">
                 {{ form.ville.label_tag }}
-                <div class="col-sm-12 col-md-7">
+                <div onchange="afficherLieux($(this))" class="col-sm-12 col-md-7">
                     {{ form.ville }} {{ form.ville.errors }}
                 </div>
             </div>
-            <div class="form-group row text-right">
-                {{ form.lieu.label_tag }}
-                <div class="col-sm-12 col-md-7">
-                    {{ form.lieu }} {{ form.lieu.errors }}
-                </div>
-            </div>
-            <div class="form-group row text-right">
-                <label>Rue :</label>
-                <div class="col-sm-12 col-md-7">
-                    {{ form.lieu.rue }} {{ form.lieu.rue.errors }}
-                </div>
-            </div>
-            <div class="form-group row text-right">
-                <label>Code Postal :</label>
-                <div class="col-sm-12 col-md-7">
-                    {{ form.ville.codePostal }} {{ form.ville.codePostal.errors }}
-                </div>
-            </div>
-            <div class="form-group row text-right">
-                <label>Latitude :</label>
-                <div class="col-sm-12 col-md-7">
-                    {{ form.lieu.latitude }} {{ form.lieu.latitude.errors }}
-                </div>
-            </div>
-            <div class="form-group row text-right">
-                <label>Longitude :</label>
-                <div class="col-sm-12 col-md-7">
-                    {{ form.lieu.longitude }} {{ form.lieu.longitude.errors }}
-                </div>
+            <div id="lieux">
+
             </div>
             <br>
             <button type="submit" class="btn btn-primary center-block">Enregistrer</button>

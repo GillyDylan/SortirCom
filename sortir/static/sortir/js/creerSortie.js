@@ -1,12 +1,30 @@
-$('#CreerSortie > div > label').addClass('col-sm-12 col-md-5 col-form-label');
-$('#CreerSortie > div > div > input').addClass('form-control');
-$('#CreerSortie > div > div > select').addClass('form-control');
+var lieux;
 
+
+$('#AjouterSortie > div > label').addClass('col-sm-12 col-md-5 col-form-label');
+$('#AjouterSortie > div > div > input').addClass('form-control');
+$('#AjouterSortie > div > div > select').addClass('form-control');
+
+$.ajax({
+    method: "GET",
+    dataType: 'json',
+    url:'/Ajax/GetLieux/',
+    success : function(response) {
+        try {
+            lieux = JSON.parse(response.lieux);
+        }
+        catch(e){
+            alert(e.toString())
+        }
+    },
+    error : function(jqXHR, exception) {
+        alert('Une erreur est survenue');
+    }
+});
 
 
 var frm = $('#AjouterSortie');
 frm.submit(function () {
-    alert('2');
     $.ajax({
         method: "POST",
         url:'/Ajax/CreerSortie/',
@@ -26,20 +44,49 @@ frm.submit(function () {
     return false;
 });
 
-// $(document).on('submit', '#new_user_form', function(e) {
-//     e.preventDefault()
-//
-//     $.ajax({
-//         type: 'POST',
-//         url: '/user/create',
-//         data: {
-//             name: $('#name').val(),
-//             description: $('#description').val(),
-//             price: $('#price').val(),
-//         },
-//         success: function(data) {
-//             console.log('success')
-//             console.log(data)
-//         }
-//     })
-// })
+function afficherLieux(select){
+    $('#lieux').html('');
+    $('#lieux').append($('<div class="form-group row text-right" id="div-lieux"></div>'));
+    $('#div-lieux').append($('<label class="col-sm-12 col-md-5 col-form-label" for="selectLieu">Lieu :</label>'));
+    $('#div-lieux').append($(' <div class="col-sm-12 col-md-7" id="div-select"></div>'));
+    $('#div-select').append($('<select>', {id: 'id_lieu', class:'form-control', name:'lieu', required:''}));
+
+    for(lieu of lieux){
+        if(lieu.ville_id == select.children('select').val()) {
+            $('#id_lieu').append($('<option value="' + lieu.id + '">' + lieu.nom + '</option>'));
+        }
+    }
+    $('#lieux').append($('<div id="detailLieu"></div>'));
+    detailLieu();
+}
+
+function detailLieu(){
+     $('#detailLieu').html('');
+    for(lieu of lieux){
+        if(lieu.id == $('#id_lieu').val()){
+            $('#detailLieu').append($('<div class="form-group row text-right" id="div-labelrue"></div>'));
+            $('#div-labelrue').append($('<label class="col-sm-12 col-md-5 col-form-label">Adresse :</label>'));
+            $('#div-labelrue').append($(' <div class="col-sm-12 col-md-7" id="div-detailrue"></div>'));
+            $('#div-detailrue').append($('<label>'+lieu.rue+'</label>'));
+
+            $('#detailLieu').append($('<div class="form-group row text-right" id="div-labelcp"></div>'));
+            $('#div-labelcp').append($('<label class="col-sm-12 col-md-5 col-form-label">Code postal :</label>'));
+            $('#div-labelcp').append($(' <div class="col-sm-12 col-md-7" id="div-detailcp"></div>'));
+            $('#div-detailcp').append($('<label>'+lieu.ville__codePostal+'</label>'));
+
+            $('#detailLieu').append($('<div class="form-group row text-right" id="div-labellatitude"></div>'));
+            $('#div-labellatitude').append($('<label class="col-sm-12 col-md-5 col-form-label">Latitude :</label>'));
+            $('#div-labellatitude').append($(' <div class="col-sm-12 col-md-7" id="div-detaillatitude"></div>'));
+            $('#div-detaillatitude').append($('<label>'+lieu.latitude+'</label>'));
+
+            $('#detailLieu').append($('<div class="form-group row text-right" id="div-labellongitude"></div>'));
+            $('#div-labellongitude').append($('<label class="col-sm-12 col-md-5 col-form-label">Longitude :</label>'));
+            $('#div-labellongitude').append($(' <div class="col-sm-12 col-md-7" id="div-detaillongitude"></div>'));
+            $('#div-detaillongitude').append($('<label>'+lieu.longitude+'</label>'));
+
+
+
+
+        }
+    }
+}

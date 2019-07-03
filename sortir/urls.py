@@ -12,6 +12,7 @@ urlpatterns = [
     path('Participants/', views.participants, name='participants'),
     path('GetSession/', views.getsession, name='session'),
     path('GetSorties/', views.getsorties, name='sorties'),
+    path('GetLieux/', views.getlieux, name='lieux'),
 
     path('AfficherSortie_<int:idsortie>/', views.affichersortie, name='affichersortie'),
     path('ModifierSortie_<int:idsortie>/', views.modifiersortie, name='modifiersortie'),

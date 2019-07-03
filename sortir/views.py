@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
 from sortir.forms import ParticipantForm, ModParticipantForm, ConnexionForm, SortieForm, AnnulerSortieForm
-from sortir.models import Participant, Sortie, Site, Etat
+from sortir.models import Participant, Sortie, Site, Etat, Lieu
 from django.contrib.auth import hashers
 from django.forms.models import model_to_dict
 # Create your views here.
@@ -119,6 +119,7 @@ def deconnexion(request):
     if 'userId' in request.session:
         del request.session['userId']
         del request.session['isAdmin']
+        print('deconnecté')
     form = ConnexionForm(request.POST or None)
     context = {'form': form}
     return render(request, 'sortir/connexion.html', context)
@@ -263,6 +264,21 @@ def getsorties(request):
                                                        'participants__prenom')),
                                    cls=DjangoJSONEncoder),
         'userId': request.session['userId']
+    }
+    return JsonResponse(data)
+
+
+def getlieux(request):
+    lieux = Lieu.objects.all()
+    data = {
+        'lieux': json.dumps(list(lieux.values('id',
+                                              'nom',
+                                              'rue',
+                                              'latitude',
+                                              'longitude',
+                                              'ville_id',
+                                              'ville__codePostal')),
+                            cls=DjangoJSONEncoder),
     }
     return JsonResponse(data)
 
