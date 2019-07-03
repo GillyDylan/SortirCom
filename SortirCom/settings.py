@@ -77,6 +77,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SortirCom.wsgi.application'
 
+DATETIME_INPUT_FORMATS = [
+    '%Y-%m-%d %H:%M',
+    '%m-%d-%Y %H:%M',
+    '%d-%m-%Y %H:%M',
+    '%Y/%m/%d %H:%M',
+    '%m/%d/%Y %H:%M',
+    '%d/%m/%Y %H:%M',
+]
+
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

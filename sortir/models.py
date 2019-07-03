@@ -9,6 +9,9 @@ class Ville(models.Model):
     nom = models.CharField(unique=True, blank=False, max_length=100)
     codePostal = models.CharField(blank=False, max_length=5, validators=[RegexValidator(r'^\d{5}$')])
 
+    def __str__(self):
+        return self.nom
+
 
 class Lieu(models.Model):
     nom = models.CharField(unique=True, blank=False, max_length=100)
@@ -17,9 +20,12 @@ class Lieu(models.Model):
     longitude = models.FloatField(blank=False)
     ville = models.ForeignKey(Ville, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.nom
+
 
 class Etat(models.Model):
-    libelle = models.CharField(blank=False, max_length=20)
+    libelle = models.CharField(unique=True, blank=False, max_length=20)
 
 
 class Site(models.Model):

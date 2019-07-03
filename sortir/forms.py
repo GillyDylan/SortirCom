@@ -1,7 +1,12 @@
 from django import forms
 from django.core.validators import RegexValidator
 from sortir.models import Sortie, Site, Lieu, Ville, Participant
-import datetime
+from django.utils.translation import gettext_lazy as _
+from datetime import datetime
+
+
+def get_now():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 class SuperParticipantForm(forms.ModelForm):
@@ -49,32 +54,47 @@ class ModParticipantForm(SuperParticipantForm):
 
 
 class SortieForm(forms.ModelForm):
-    ville = forms.ModelChoiceField(queryset=Ville.objects.all())
+    ville = forms.ModelChoiceField(queryset=Ville.objects.all(), required=False)
 
     class Meta:
         model = Sortie
-        fields = ['nom', 'dateHeureDebut', 'dateHeureFin', 'dateLimiteInscription', 'infosSortie', 'lieu', 'nbinscriptionMax', 'organisateur']
+        fields = ['nom', 'dateHeureDebut', 'dateHeureFin', 'dateLimiteInscription', 'infosSortie', 'lieu', 'nbinscriptionMax']
+        labels = {
+            'dateHeureDebut': _('Date debut :'),
+            'dateHeureFin': _('Date fin :'),
+            'dateLimiteInscription': _('Date fin inscription :'),
+            'infosSortie': _('Description et infos :'),
+            'nbinscriptionMax': _('Nombre maximum de participant :'),
+        }
+        widgets = {
+            'dateHeureDebut': forms.DateTimeInput(attrs={'placeholder': 'dd/mm/yyyy hh:mm', 'id': 'form_datetime1'}),
+            'dateHeureFin': forms.DateTimeInput(attrs={'placeholder': 'dd/mm/yyyy hh:mm', 'id': 'form_datetime2'}),
+            'dateLimiteInscription': forms.DateTimeInput(attrs={'placeholder': 'dd/mm/yyyy', 'id': 'form_datetime3'})
+        }
 
     def clean(self):
+        print("Je suis dans le clean")
         cleaned_data = super().clean()
+        print("Supeer clean passé")
         datedebut = self.cleaned_data.get('dateHeureDebut')
         datelimite = self.cleaned_data.get('dateLimiteInscription')
-        datejour = datetime.datetime.now()
+        datejour = datetime.now()
         datefin = self.cleaned_data.get('dateHeureFin')
-
-        if datelimite <= datejour:
+        print("J'ai réussi a recuperer les données")
+        if datelimite <= datejour.date():
             raise forms.ValidationError("Attention : La date limite doit etre postérieur à aujourd'hui")
-
-        if datedebut < datelimite.hour + 1:
+        print("Test 1 passé")
+        if datedebut.date() < datelimite:
             raise forms.ValidationError("Attention : La date de début "
                                         "doit etre postérieur à la date de fin d'inscription")
-        if datedebut < datejour:
+        print("Test 2 passé")
+        if datedebut.date() < datejour.date():
             raise forms.ValidationError("Attention : La date de début doit etre postérieur à aujourd'hui")
-
+        print("Test 3 passé")
         if datefin <= datedebut:
             raise forms.ValidationError("Attention : la date et l'heure de fin "
                                         "doivent être postérieur à la date de début")
-
+        print("Test 4 passé")
         return cleaned_data
 
 

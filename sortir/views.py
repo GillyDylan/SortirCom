@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from sortir.forms import ParticipantForm, ConnexionForm, SortieForm
 from sortir.forms import ParticipantForm, ModParticipantForm, ConnexionForm, SortieForm
-from sortir.models import Participant, Sortie, Site
+from sortir.models import Participant, Sortie, Site, Etat
 from django.contrib.auth import hashers
 from django.forms.models import model_to_dict
 # Create your views here.
@@ -38,14 +38,21 @@ def accueil(request):
 
 def creersortie(request):
     sortie = Sortie()
-    sortie.organisateur = Participant.objects.get(pk=request.session['userId'])
+    organisateur = Participant.objects.get(pk=request.session['userId'])
     form = SortieForm(request.POST or None, instance=sortie)
 
-    if form.is_valid():
-        sortie.save()
-        return redirect('/Accueil/')
+    print(form.is_valid(), form.errors, type(form.errors))
 
-    context = {'form': form, 'villeOrga': sortie.organisateur.site.nom}
+    if form.is_valid():
+        sortie.organisateur = organisateur
+        if 'Enregistrer' in request.POST:
+            sortie.etat = Etat.objects.get(libelle='Créée')
+        elif 'Publier' in request.POST:
+            sortie.etat = Etat.objects.get(libelle='Ouverte')
+        sortie.save()
+        return render(request, 'sortir/accueil.html')
+
+    context = {'form': form, 'villeOrga': organisateur.site.nom}
     return render(request, 'sortir/creerSortie.html', context)
 
 
