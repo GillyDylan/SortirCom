@@ -151,6 +151,11 @@ CSRF_COOKIE_HTTPONLY = True
 
 CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
 
-PROJECT_APPS = {
+PROJECT_APPS = (
     'sortir'
-}
+)
+
+JENKINS_TASKS = (
+    'django_jenkins.tasks.run_pep8',
+    'django_jenkins.tasks.run_pyflakes'
+)
