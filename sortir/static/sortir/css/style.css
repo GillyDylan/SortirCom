@@ -22,3 +22,8 @@ div[id^="AfficherProfil"] :hover{
     cursor: pointer;
     text-decoration: underline;
 }
+
+*[id^="Inscription"] :hover{
+    cursor: pointer;
+    text-decoration: underline;
+}

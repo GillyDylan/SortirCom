@@ -64,12 +64,12 @@ function afficherSorties(){
             }
             if(inscrit === 'X'){
                 $('#tdSortie_' + sortie.id).append(
-                '<div id="SeDesister_'+ sortie.id +'" onclick="changerPage($(this))">' +
+                '<div id="Inscription_'+ sortie.id +'" onclick="changerPage($(this))">' +
                 '<label>Se désister</label>' +
                 '</div>')
-            }else{
+            }else if(userId != sortie.organisateur_id){
                  $('#tdSortie_' + sortie.id).append(
-                '<div id="Sinscrire_'+ sortie.id +'" onclick="changerPage($(this))">' +
+                '<div id="Inscription_'+ sortie.id +'" onclick="changerPage($(this))">' +
                 '<label>S\'inscrire</label>' +
                 '</div>')
             }

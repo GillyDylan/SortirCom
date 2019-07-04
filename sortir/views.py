@@ -35,17 +35,23 @@ def accueil(request):
 
 
 def inscription(request, idsortie):
-    if 'userId' not in request.session:
+    print('test')
+    if 'userId' in request.session:
+        print('test2')
         sortie = Sortie.objects.get(pk=idsortie)
         user = Participant.objects.get(pk=request.session['userId'])
-
+        print('test3')
+        print(user.id)
         if sortie.participants.get(pk=user.id):
             sortie.participants.remove(user)
             sortie.save()
+            print('del')
         else:
-            if sortie.dateLimiteInscription <= datetime.now().date():
+            if sortie.dateLimiteInscription >= datetime.now().date():
+                print('inscr')
                 sortie.participants.add(user)
                 sortie.save()
+    return accueil(request)
 
 
 # Views pour le models Ville

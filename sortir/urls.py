@@ -15,6 +15,9 @@ urlpatterns = [
     path('GetLieux/', views.getlieux, name='lieux'),
 
     path('AfficherSortie_<int:idsortie>/', views.affichersortie, name='affichersortie'),
+    path('Inscription_<int:idsortie>/', views.inscription, name='inscription'),
+
+
     path('ModifierSortie_<int:idsortie>/', views.modifiersortie, name='modifiersortie'),
     path('AnnulerSortie_<int:idsortie>/', views.annulersortie, name='annulersortie'),
 
