@@ -285,7 +285,6 @@ def getsession(request):
 def getsorties(request):
     dateMin = date.today() - timedelta(days=calendar.monthrange(date.today().year, date.today().month)[1])
     sorties = Sortie.objects.filter(dateHeureFin__gte=dateMin)
-    particips = Participant.objects.all()
     data = {
         'sorties': json.dumps(list(sorties.values('id',
                                                   'nom',
@@ -302,8 +301,8 @@ def getsorties(request):
                                                   'organisateur__nom',
                                                   'organisateur__prenom')),
                               cls=DjangoJSONEncoder),
-        'participants': json.dumps(list(particips.values('id',
-                                                         'sortie__participants__site_id')),
+        'participants': json.dumps(list(sorties.values('id',
+                                                       'participants')),
                                    cls=DjangoJSONEncoder),
         'userId': request.session['userId']
     }

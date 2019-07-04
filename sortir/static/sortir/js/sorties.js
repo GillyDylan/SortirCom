@@ -30,11 +30,10 @@ function afficherSorties(){
         var inscrit = '';
 
         for (participant of participants) {
-            if (sortie.id === participant.sortie__participants__site_id) {
-                if (userId === participant.participants__site_id) {
+            if (sortie.id === participant.id && participant.participants != null) {
+                if (userId === participant.participants) {
                     inscrit = 'X'
                 }
-                alert(participant.sortie__participants__site_id);
                 nbParticipants++;
             }
         }
