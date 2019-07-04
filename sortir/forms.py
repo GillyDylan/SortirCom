@@ -43,7 +43,6 @@ class ModParticipantForm(SuperParticipantForm):
             'image': 'Image de profil'
         }
 
-
     def __init__(self, *args, **kwargs):
         super(ModParticipantForm, self).__init__(*args, **kwargs)
         self.fields['password'].required = False
@@ -83,7 +82,7 @@ class SortieForm(forms.ModelForm):
         datelimite = self.cleaned_data.get('dateLimiteInscription')
         datejour = datetime.now()
         datefin = self.cleaned_data.get('dateHeureFin')
-        if datelimite <= datejour.date():
+        if datelimite < datejour.date():
             raise forms.ValidationError("Attention : La date limite doit etre postérieur à aujourd'hui")
         if datedebut.date() < datelimite:
             raise forms.ValidationError("Attention : La date de début "

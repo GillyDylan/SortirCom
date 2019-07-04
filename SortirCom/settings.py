@@ -25,7 +25,7 @@ SECRET_KEY = '-3uf8$o!9^bxj!(&d87p5-4a&922xfbg7)2$fx897a&tz(+g&m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sortir.apps.SortirConfig',
+    'django_jenkins',
 ]
 
 MIDDLEWARE = [
