@@ -42,7 +42,7 @@ def inscription(request, idsortie):
         user = Participant.objects.get(pk=request.session['userId'])
         print('test3')
         print(user.id)
-        if sortie.participants.get(pk=user.id):
+        if sortie.participants.filter(pseudo=user.pseudo).count() == 1:
             sortie.participants.remove(user)
             sortie.save()
             print('del')
