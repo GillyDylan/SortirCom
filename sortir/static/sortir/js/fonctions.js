@@ -35,7 +35,7 @@ function changerPageAjax(id){
             }
         },
         error : function(jqXHR, exception) {
-            alert('Une erreur est survenue');
+            alert(exception.toString());
         }
     });
 }

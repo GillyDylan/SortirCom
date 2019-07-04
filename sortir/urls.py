@@ -14,17 +14,18 @@ urlpatterns = [
     path('GetSorties/', views.getsorties, name='sorties'),
     path('GetLieux/', views.getlieux, name='lieux'),
 
+    path('CreerSortie/', views.creersortie, name='creersortie'),
     path('AfficherSortie_<int:idsortie>/', views.affichersortie, name='affichersortie'),
-    path('Inscription_<int:idsortie>/', views.inscription, name='inscription'),
-
-
     path('ModifierSortie_<int:idsortie>/', views.modifiersortie, name='modifiersortie'),
+    path('PublierSortie_<int:idsortie>/', views.publiersortie, name='modifiersortie'),
     path('AnnulerSortie_<int:idsortie>/', views.annulersortie, name='annulersortie'),
+
+    path('Inscription_<int:idsortie>/', views.inscription, name='inscription'),
 
     path('Connexion/', views.connexion, name='connexion'),
     path('AfficherProfil_<int:idOrganisateur>/', views.afficherprofil, name='afficherprofil'),
     path('AjouterParticipant/', views.ajouterparticipant, name='ajouterparticipant'),
-    path('CreerSortie/', views.creersortie, name='creersortie'),
+
 
     path('ModifierProfil/', views.modifierprofil, name='modifierprofil')
 ]

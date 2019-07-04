@@ -30,15 +30,17 @@ function afficherSorties(){
         var inscrit = '';
 
         for (participant of participants) {
-            if (sortie.id === participant.id) {
+            if (sortie.id === participant.sortie__participants__site_id) {
                 if (userId === participant.participants__site_id) {
                     inscrit = 'X'
                 }
+                alert(participant.sortie__participants__site_id);
                 nbParticipants++;
             }
         }
         if (($('#recherche').val() === '' || sortie.nom.toLowerCase().indexOf($('#recherche').val().toLowerCase()) >= 0) &&
-            (sortie.organisateur__site_id == $("#sites").val()) && ((sortie.organisateur_id === userId && $("#orga").is(':checked')) ||
+            (sortie.organisateur__site_id == $("#sites").val()) &&
+            (sortie.etat_id != 1 || userId == sortie.organisateur_id) && ((sortie.organisateur_id === userId && $("#orga").is(':checked')) ||
                                                                    (inscrit === 'X' && $("#inscr").is(':checked')) ||
                                                                    (inscrit === '' && $("#notinscr").is(':checked'))))
         {
@@ -54,9 +56,11 @@ function afficherSorties(){
             }else{
                 $('#Sortie_' + sortie.id).append($('<td><div id="AfficherProfil_'+ sortie.organisateur_id +'" onclick="changerPage($(this))"><label>' + sortie.organisateur__prenom + ' ' + sortie.organisateur__nom.substring(0,1) +'.</label></div></td>'));
             }
-            if(userId == sortie.organisateur_id){
+            if(userId == sortie.organisateur_id && sortie.etat_id == 1){
                 $('#Sortie_' + sortie.id).append('<td id="tdSortie_' + sortie.id + '">' +
-                    '<div id="ModifierSortie_' + sortie.id + '" onclick="changerPage($(this))"><label>Modifier</label></div></td>');
+                    '<div id="ModifierSortie_' + sortie.id + '" onclick="changerPage($(this))"><label>Modifier</label></div>' +
+                    '<div id="PublierSortie_' + sortie.id + '" onclick="changerPage($(this))"><label>Publier</label></div>' +
+                    '</td>');
 
             }else {
                 $('#Sortie_' + sortie.id).append('<td id="tdSortie_' + sortie.id + '">' +

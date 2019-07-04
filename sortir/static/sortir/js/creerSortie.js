@@ -34,11 +34,12 @@ frm.submit(function () {
                 xhr.setRequestHeader("HTTP_X_CSRFTOKEN", jQuery("[name=csrfmiddlewaretoken]").val());
             }
         },
-        success: function (data) {
-             alert('3');
+        success: function (resultText) {
+            verifierUtilisateurActuel();
+            $('#contenu').html(resultText);
         },
-        error: function(data) {
-             alert('4');
+        error : function(jqXHR, exception) {
+            alert(exception.toString());
         }
     });
     return false;

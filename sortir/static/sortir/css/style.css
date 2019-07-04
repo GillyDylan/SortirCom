@@ -27,3 +27,13 @@ div[id^="AfficherProfil"] :hover{
     cursor: pointer;
     text-decoration: underline;
 }
+
+*[id^="ModifierSortie"] :hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+*[id^="PublierSortie"] :hover{
+    cursor: pointer;
+    text-decoration: underline;
+}

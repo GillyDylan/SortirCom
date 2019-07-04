@@ -98,10 +98,18 @@ def creersortie(request):
     return connexion(request)
 
 
+def publiersortie(request, idsortie):
+    if 'userId' in request.session:
+        sortie = Sortie.objects.get(pk=idsortie)
+        sortie.etat = Etat.objects.get(pk=2)
+        sortie.save()
+    return accueil(request)
+
+
+
 def affichersortie(request, idsortie):
     if 'userId' in request.session:
         sortie = Sortie.objects.get(pk=idsortie)
-
         context = {'sortie': sortie}
         return render(request, 'sortir/afficherSortie.html', context)
     return connexion(request)
@@ -277,6 +285,7 @@ def getsession(request):
 def getsorties(request):
     dateMin = date.today() - timedelta(days=calendar.monthrange(date.today().year, date.today().month)[1])
     sorties = Sortie.objects.filter(dateHeureFin__gte=dateMin)
+    particips = Participant.objects.all()
     data = {
         'sorties': json.dumps(list(sorties.values('id',
                                                   'nom',
@@ -293,10 +302,8 @@ def getsorties(request):
                                                   'organisateur__nom',
                                                   'organisateur__prenom')),
                               cls=DjangoJSONEncoder),
-        'participants': json.dumps(list(sorties.values('id',
-                                                       'participants__site_id',
-                                                       'participants__nom',
-                                                       'participants__prenom')),
+        'participants': json.dumps(list(particips.values('id',
+                                                         'sortie__participants__site_id')),
                                    cls=DjangoJSONEncoder),
         'userId': request.session['userId']
     }
